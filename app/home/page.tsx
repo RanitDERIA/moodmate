@@ -83,54 +83,54 @@ function HomeContent() {
     const showResults = isAnalyzing || result;
 
     return (
-        <div className="min-h-screen bg-[#FFF8F0] p-6 pt-10 pb-24">
-            <div className="max-w-6xl mx-auto flex flex-col gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="min-h-screen bg-[#FFF8F0] p-6 pt-10 pb-24 overflow-x-hidden">
+            <div className="max-w-6xl mx-auto flex flex-col gap-8 md:gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {/* Top Section: Greeting & Spotify */}
-                <div className="relative isolate grid md:grid-cols-2 gap-8 items-center min-h-[60vh] py-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
+                <div className="relative isolate grid md:grid-cols-2 gap-8 items-center min-h-[auto] md:min-h-[60vh] py-8 md:py-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100">
 
                     {/* Floating Background Elements */}
-                    <div className="absolute -top-12 -left-12 w-40 h-40 bg-[#FACC55] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
-                    <div className="absolute top-0 -right-4 w-40 h-40 bg-[#A78BFA] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
-                    <div className="absolute -bottom-8 left-20 w-40 h-40 bg-[#FB58B4] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
+                    <div className="absolute -top-12 -left-12 w-24 h-24 md:w-40 md:h-40 bg-[#FACC55] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+                    <div className="absolute top-0 -right-4 w-24 h-24 md:w-40 md:h-40 bg-[#A78BFA] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+                    <div className="absolute -bottom-8 left-20 w-24 h-24 md:w-40 md:h-40 bg-[#FB58B4] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
 
                     {/* Left: Greeting & Content */}
                     <div className="relative z-10 flex flex-col justify-center items-start">
                         <GreetingHeader />
 
-                        <div className="mt-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-700">
+                        <div className="mt-6 md:mt-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-700">
                             <h2 className="text-2xl md:text-3xl font-bold leading-tight">
                                 Your emotions, <br />
                                 <span className="bg-[#FACC55] px-2 text-black transform -skew-x-3 inline-block">amplified.</span>
                             </h2>
-                            <p className="text-black/60 font-medium max-w-md">
+                            <p className="text-black/60 font-medium max-w-md text-sm md:text-base">
                                 MoodMate translates your vibe into the perfect Spotify playlist. No searching, just feeling.
                             </p>
 
                             {/* Mini Stat Card */}
                             <div className="inline-flex items-center gap-3 bg-white border-2 border-black/5 rounded-full px-4 py-2 shadow-sm hover:scale-105 transition-transform cursor-default">
                                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                <span className="text-sm font-bold text-black/70">System Status: Online & Listening</span>
+                                <span className="text-xs md:text-sm font-bold text-black/70">System Status: Online & Listening</span>
                             </div>
                         </div>
 
                         {/* Floating Overlay Icons */}
                         <div className="absolute -top-12 -left-8 text-[#FACC55] animate-blob filter drop-shadow-lg z-20">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" className="transform rotate-12"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" className="transform rotate-12 scale-75 md:scale-100"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
                         </div>
                     </div>
 
                     {/* Right: Spotify Trending */}
-                    <div className="relative z-10 w-full hover:scale-[1.01] transition-transform duration-500 ease-out group">
+                    <div className="relative z-10 w-full hover:scale-[1.01] transition-transform duration-500 ease-out group mt-8 md:mt-0">
                         {/* Decorative shadow element behind spotify */}
                         <div className="absolute -inset-2 bg-black/5 rounded-[20px] -z-10 group-hover:bg-[#A78BFA]/20 transition-colors duration-500 blur-sm" />
 
                         {/* Floating Music Note Overlay */}
                         <div className="absolute -top-6 -right-6 z-20 text-[#FB58B4] animate-bounce duration-[3000ms] filter drop-shadow-md">
-                            <Music2 className="w-12 h-12 transform rotate-12" />
+                            <Music2 className="w-8 h-8 md:w-12 md:h-12 transform rotate-12" />
                         </div>
                         {/* Floating Heart Overlay */}
                         <div className="absolute -bottom-6 -left-6 z-20 text-[#E34234] animate-blob animation-delay-2000 filter drop-shadow-md">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" className="md:w-10 md:h-10"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                         </div>
 
                         <iframe
@@ -143,7 +143,7 @@ function HomeContent() {
                             allowFullScreen
                             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                             loading="lazy"
-                            className="shadow-[8px_8px_0px_0px_#a78bfa] bg-white relative z-10"
+                            className="shadow-[4px_4px_0px_0px_#a78bfa] md:shadow-[8px_8px_0px_0px_#a78bfa] bg-white relative z-10"
                         />
                     </div>
                 </div>

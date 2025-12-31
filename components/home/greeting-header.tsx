@@ -42,7 +42,7 @@ export function GreetingHeader() {
 
     return (
         <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tight">
                 {getGreeting()}, <br />
                 <span className="text-[#7c3aed]">{name || 'Friend'}</span>
             </h1>
