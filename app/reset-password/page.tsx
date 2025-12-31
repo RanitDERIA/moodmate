@@ -7,7 +7,9 @@ import { ArrowRight, Lock, Loader2, ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 
-export default function ResetPasswordPage() {
+import { Suspense } from 'react';
+
+function ResetPasswordContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const supabase = createClient();
@@ -189,5 +191,13 @@ export default function ResetPasswordPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }

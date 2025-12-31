@@ -9,7 +9,9 @@ import { ApiResponse } from '@/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Loader2, Music2, ExternalLink, Camera } from 'lucide-react';
 
-export default function HomePage() {
+import { Suspense } from 'react';
+
+function HomeContent() {
     const webcamRef = useRef<{ capture: () => string | null }>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<ApiResponse | null>(null);
@@ -311,5 +313,13 @@ export default function HomePage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function HomePage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+            <HomeContent />
+        </Suspense>
     );
 }

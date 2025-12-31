@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { moods, MoodOption } from '@/lib/moods';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ChevronUp } from 'lucide-react';
+import { ArrowLeft, ChevronUp, Music2 } from 'lucide-react';
 
 export default function VibesPage() {
     const [selectedMood, setSelectedMood] = useState<MoodOption | null>(null);

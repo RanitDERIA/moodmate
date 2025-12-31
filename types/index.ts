@@ -6,6 +6,8 @@ export interface Song {
   valence: number;
   energy: number;
   emotion_id: number;
+  album_art?: string;
+  spotify_url?: string;
 }
 
 export interface ApiResponse {

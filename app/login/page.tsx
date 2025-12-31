@@ -8,7 +8,9 @@ import { createClient } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { OAuthButton } from '@/components/custom/oauth-button';
 
-export default function LoginPage() {
+import { Suspense } from 'react';
+
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const supabase = createClient();
@@ -183,5 +185,13 @@ export default function LoginPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+            <LoginContent />
+        </Suspense>
     );
 }
