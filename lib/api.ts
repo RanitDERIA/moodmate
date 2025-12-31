@@ -9,7 +9,8 @@ export class ApiError extends Error {
 
 export async function analyzeMood(imageBase64: string): Promise<ApiResponse> {
   try {
-    const response = await fetch('http://localhost:5000/predict_emotion', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const response = await fetch(`${apiUrl}/predict_emotion`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
