@@ -160,133 +160,212 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
     };
 
     return createPortal(
-        <AnimatePresence>
-            {isOpen && (
-                <>
-                    {/* Backdrop */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100]"
-                    />
-
-                    {/* Modal */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 40 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 40 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none"
-                    >
-                        <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto flex flex-col relative border border-black/5" ref={previewRef}>
-
-                            {/* Close Button */}
-                            <button
-                                onClick={onClose}
-                                className="absolute top-4 right-4 z-20 p-2 bg-black text-white hover:bg-zinc-800 rounded-full transition-transform hover:scale-110 shadow-lg"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-
-                            {/* Content */}
-                            <div className="p-8 pb-0">
-                                {/* Preview Card - Mimicking the design */}
-                                <div className="bg-white rounded-[32px] p-6 shadow-xl border border-black/5 mb-8 transform transition-transform hover:scale-[1.02] duration-500">
-                                    {/* Header */}
-                                    <div className="flex justify-between items-start mb-6">
-                                        <div className="flex gap-3">
-                                            <div className="w-12 h-12 rounded-full border border-black/10 overflow-hidden bg-gray-50 flex items-center justify-center shrink-0 ring-4 ring-yellow-400">
-                                                {avatarSrc ? (
-                                                    <img src={avatarSrc} alt="User" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    <span className="font-black text-sm text-black/80">{getInitials(displayName)}</span>
-                                                )}
-                                            </div>
-                                            <div>
-                                                <h3 className="font-black text-lg leading-none">{displayName}</h3>
-                                                <p className="text-xs font-medium text-black/40 mt-1">{dateStr}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <VibeBadge emotion={playlist?.emotion} className="text-[10px]" />
-                                        </div>
-                                    </div>
-
-                                    {/* Main Text */}
-                                    <div className="mb-6">
-                                        <h2 className="text-3xl font-black leading-tight mb-2">
-                                            Feeling <span className="text-[#8B5CF6]">{playlist?.emotion}</span> today.
-                                        </h2>
-                                        {playlist?.tagline && (
-                                            <p className="text-lg text-black/50 font-medium italic">"{playlist.tagline}"</p>
+        <>
+            {/* Hidden Capture Template (Off-screen) */}
+            {/* We render this always (or when open) so it's ready for capture. 
+                Fixed width ensures consistent image size. 
+                Using absolute positioning off-screen to hide it from user but keep it in DOM for html-to-image. */}
+            <div
+                ref={previewRef}
+                className="absolute top-0 left-0 -z-50 pointer-events-none"
+                style={{ transform: 'translateX(-9999px)' }}
+            >
+                <div className="w-[600px] bg-white rounded-[40px] overflow-hidden border border-black/5 flex flex-col shadow-2xl">
+                    {/* Card Content for Image */}
+                    <div className="p-8 pb-8">
+                        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-black/5 mb-0">
+                            {/* Header */}
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="flex gap-3">
+                                    <div className="w-14 h-14 rounded-full border border-black/10 overflow-hidden bg-gray-50 flex items-center justify-center shrink-0 ring-4 ring-yellow-400">
+                                        {avatarSrc ? (
+                                            <img src={avatarSrc} alt="User" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="font-black text-sm text-black/80">{getInitials(displayName)}</span>
                                         )}
                                     </div>
-
-                                    {/* Footer / Link */}
-                                    <div className="flex gap-4 items-stretch h-20">
-                                        {/* Link Pill */}
-                                        <div className={`flex-1 rounded-2xl flex items-center px-4 gap-3 bg-opacity-10`} style={{ backgroundColor: `${platform.color}15` }}>
-                                            <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0 p-1.5">
-                                                {platform.icon ? <img src={platform.icon} className="w-full h-full object-contain" /> : <ExternalLink className="w-5 h-5 opacity-50" />}
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="font-bold text-sm truncate text-black/80">Listen on {platform.name}</p>
-                                                <p className="text-[10px] font-bold uppercase tracking-wider text-black/40" style={{ color: platform.color }}>Click to Play</p>
-                                            </div>
-                                        </div>
-
-                                        {/* Right Abstract Box (Mock Thumbnail) */}
-                                        <div className="w-20 rounded-2xl bg-black overflow-hidden relative shrink-0">
-                                            <img src={activeThumbnail} className="w-full h-full object-cover opacity-80" alt="Cover" />
-                                        </div>
+                                    <div>
+                                        <h3 className="font-black text-xl leading-none">{displayName}</h3>
+                                        <p className="text-sm font-medium text-black/40 mt-1">{dateStr}</p>
                                     </div>
                                 </div>
-
-                                {/* Share Actions */}
-                                <div className="grid grid-cols-2 gap-3 mb-6">
-                                    <button onClick={handleCopy} className={`p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition-all border-2 border-transparent ${copied ? 'bg-green-100 text-green-700 border-green-200' : 'bg-white hover:bg-gray-50 border-black/5'}`}>
-                                        {copied ? <Check className="w-6 h-6" /> : <Copy className="w-6 h-6 text-black/40" />}
-                                        <span className="text-xs uppercase tracking-wider text-black/60">{copied ? 'Copied!' : 'Copy Link'}</span>
-                                    </button>
-                                    <div className="grid grid-cols-3 gap-2">
-                                        <button onClick={() => handleShare('whatsapp')} className="h-14 rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-8 h-8" alt="WhatsApp" />
-                                        </button>
-                                        <button onClick={() => handleShare('twitter')} className="h-14 rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <Twitter className="w-7 h-7" />
-                                        </button>
-                                        <button onClick={() => handleShare('instagram')} className="h-14 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <Instagram className="w-7 h-7" />
-                                        </button>
-                                        <button onClick={() => handleShare('facebook')} className="h-14 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <Facebook className="w-7 h-7" />
-                                        </button>
-                                        <button onClick={() => handleShare('gmail')} className="h-14 rounded-2xl bg-[#EA4335] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <Mail className="w-7 h-7" />
-                                        </button>
-                                        <button onClick={() => handleShare('native')} className="h-14 rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                            <ExternalLink className="w-7 h-7" />
-                                        </button>
-                                    </div>
+                                <div className="flex gap-2">
+                                    <VibeBadge emotion={playlist?.emotion} className="text-sm scale-110 origin-top-right" />
                                 </div>
                             </div>
 
-                            {/* Footer / Branding */}
-                            <div className="bg-yellow-400 py-4 px-6 text-center border-t border-black/5">
-                                <div className="flex items-center justify-center gap-2 mb-1">
-                                    <img src="/images/logo.png" className="w-5 h-5 object-contain" alt="MoodMate" />
-                                    <span className="font-black text-black uppercase tracking-tight text-lg">MoodMate</span>
+                            {/* Main Text */}
+                            <div className="mb-8">
+                                <h2 className="text-4xl font-black leading-tight mb-3">
+                                    Feeling <span className="text-[#8B5CF6]">{playlist?.emotion}</span> today.
+                                </h2>
+                                {playlist?.tagline && (
+                                    <p className="text-xl text-black/50 font-medium italic">"{playlist.tagline}"</p>
+                                )}
+                            </div>
+
+                            {/* Footer / Link */}
+                            <div className="flex gap-4 items-stretch h-24">
+                                {/* Link Pill */}
+                                <div className={`flex-1 rounded-2xl flex items-center px-6 gap-4 bg-opacity-10`} style={{ backgroundColor: `${platform.color}15` }}>
+                                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0 p-2">
+                                        {platform.icon ? <img src={platform.icon} className="w-full h-full object-contain" /> : <ExternalLink className="w-6 h-6 opacity-50" />}
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="font-bold text-base truncate text-black/80">Listen on {platform.name}</p>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-black/40" style={{ color: platform.color }}>Click to Play</p>
+                                    </div>
                                 </div>
-                                <p className="text-[10px] uppercase tracking-widest text-black/40 font-bold">
-                                    Crafted with <span className="text-[#FB58B4]">♥</span> by Ranit Deria
-                                </p>
+
+                                {/* Right Abstract Box (Mock Thumbnail) */}
+                                <div className="w-24 rounded-2xl bg-black overflow-hidden relative shrink-0">
+                                    <img src={activeThumbnail} className="w-full h-full object-cover opacity-80" alt="Cover" />
+                                </div>
                             </div>
                         </div>
-                    </motion.div>
-                </>
-            )}
-        </AnimatePresence>,
+                    </div>
+
+                    {/* Footer / Branding */}
+                    <div className="bg-yellow-400 py-6 px-8 text-center border-t border-black/5">
+                        <div className="flex items-center justify-center gap-3 mb-2">
+                            <img src="/images/logo.png" className="w-6 h-6 object-contain" alt="MoodMate" />
+                            <span className="font-black text-black uppercase tracking-tight text-xl">MoodMate</span>
+                        </div>
+                        <p className="text-xs uppercase tracking-widest text-black/40 font-bold">
+                            Crafted with <span className="text-[#FB58B4]">♥</span> by Ranit Deria
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={onClose}
+                            className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100]"
+                        />
+
+                        {/* Modal */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 40 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 40 }}
+                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none"
+                        >
+                            <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto flex flex-col relative border border-black/5">
+
+                                {/* Close Button */}
+                                <button
+                                    onClick={onClose}
+                                    className="absolute top-4 right-4 z-20 p-2 bg-black text-white hover:bg-zinc-800 rounded-full transition-transform hover:scale-110 shadow-lg"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+
+                                {/* Content */}
+                                <div className="p-8 pb-0">
+                                    {/* Preview Card - Mimicking the design */}
+                                    <div className="bg-white rounded-[32px] p-6 shadow-xl border border-black/5 mb-8 transform transition-transform hover:scale-[1.02] duration-500">
+                                        {/* Header */}
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div className="flex gap-3">
+                                                <div className="w-12 h-12 rounded-full border border-black/10 overflow-hidden bg-gray-50 flex items-center justify-center shrink-0 ring-4 ring-yellow-400">
+                                                    {avatarSrc ? (
+                                                        <img src={avatarSrc} alt="User" className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <span className="font-black text-sm text-black/80">{getInitials(displayName)}</span>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-black text-lg leading-none">{displayName}</h3>
+                                                    <p className="text-xs font-medium text-black/40 mt-1">{dateStr}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <VibeBadge emotion={playlist?.emotion} className="text-[10px]" />
+                                            </div>
+                                        </div>
+
+                                        {/* Main Text */}
+                                        <div className="mb-6">
+                                            <h2 className="text-3xl font-black leading-tight mb-2">
+                                                Feeling <span className="text-[#8B5CF6]">{playlist?.emotion}</span> today.
+                                            </h2>
+                                            {playlist?.tagline && (
+                                                <p className="text-lg text-black/50 font-medium italic">"{playlist.tagline}"</p>
+                                            )}
+                                        </div>
+
+                                        {/* Footer / Link */}
+                                        <div className="flex gap-4 items-stretch h-20">
+                                            {/* Link Pill */}
+                                            <div className={`flex-1 rounded-2xl flex items-center px-4 gap-3 bg-opacity-10`} style={{ backgroundColor: `${platform.color}15` }}>
+                                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0 p-1.5">
+                                                    {platform.icon ? <img src={platform.icon} className="w-full h-full object-contain" /> : <ExternalLink className="w-5 h-5 opacity-50" />}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="font-bold text-sm truncate text-black/80">Listen on {platform.name}</p>
+                                                    <p className="text-[10px] font-bold uppercase tracking-wider text-black/40" style={{ color: platform.color }}>Click to Play</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Right Abstract Box (Mock Thumbnail) */}
+                                            <div className="w-20 rounded-2xl bg-black overflow-hidden relative shrink-0">
+                                                <img src={activeThumbnail} className="w-full h-full object-cover opacity-80" alt="Cover" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Share Actions */}
+                                    <div className="grid grid-cols-2 gap-3 mb-6">
+                                        <button onClick={handleCopy} className={`p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition-all border-2 border-transparent ${copied ? 'bg-green-100 text-green-700 border-green-200' : 'bg-white hover:bg-gray-50 border-black/5'}`}>
+                                            {copied ? <Check className="w-6 h-6" /> : <Copy className="w-6 h-6 text-black/40" />}
+                                            <span className="text-xs uppercase tracking-wider text-black/60">{copied ? 'Copied!' : 'Copy Link'}</span>
+                                        </button>
+                                        <div className="grid grid-cols-3 gap-2">
+                                            <button onClick={() => handleShare('whatsapp')} className="h-14 rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-8 h-8" alt="WhatsApp" />
+                                            </button>
+                                            <button onClick={() => handleShare('twitter')} className="h-14 rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <Twitter className="w-7 h-7" />
+                                            </button>
+                                            <button onClick={() => handleShare('instagram')} className="h-14 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <Instagram className="w-7 h-7" />
+                                            </button>
+                                            <button onClick={() => handleShare('facebook')} className="h-14 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <Facebook className="w-7 h-7" />
+                                            </button>
+                                            <button onClick={() => handleShare('gmail')} className="h-14 rounded-2xl bg-[#EA4335] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <Mail className="w-7 h-7" />
+                                            </button>
+                                            <button onClick={() => handleShare('native')} className="h-14 rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                <ExternalLink className="w-7 h-7" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Footer / Branding */}
+                                <div className="bg-yellow-400 py-4 px-6 text-center border-t border-black/5">
+                                    <div className="flex items-center justify-center gap-2 mb-1">
+                                        <img src="/images/logo.png" className="w-5 h-5 object-contain" alt="MoodMate" />
+                                        <span className="font-black text-black uppercase tracking-tight text-lg">MoodMate</span>
+                                    </div>
+                                    <p className="text-[10px] uppercase tracking-widest text-black/40 font-bold">
+                                        Crafted with <span className="text-[#FB58B4]">♥</span> by Ranit Deria
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>,
         document.body
     );
 }
