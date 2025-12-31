@@ -8,12 +8,16 @@ import { toast } from 'sonner';
 import { VibeBadge } from '@/components/community/vibe-badge';
 
 
+import { toBlob } from 'html-to-image';
+import { useRef } from 'react';
 
 export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isOpen: boolean, onClose: () => void, playlist: any, thumbnail?: string | null }) {
     const [copied, setCopied] = useState(false);
     const [shareUrl, setShareUrl] = useState('');
     const [mounted, setMounted] = useState(false);
     const [fetchedThumbnail, setFetchedThumbnail] = useState<string | null>(null);
+    const previewRef = useRef<HTMLDivElement>(null);
+    const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -74,13 +78,44 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
         } else if (platform === 'native') {
             if (navigator.share) {
                 try {
-                    await navigator.share({
+                    setIsGeneratingImage(true);
+                    let files: File[] = [];
+
+                    // Try to generate image
+                    if (previewRef.current) {
+                        try {
+                            const blob = await toBlob(previewRef.current, { cacheBust: true });
+                            if (blob) {
+                                const file = new File([blob], 'moodmate-vibe.png', { type: 'image/png' });
+                                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                                    files = [file];
+                                }
+                            }
+                        } catch (imgError) {
+                            console.error("Failed to generate image:", imgError);
+                        }
+                    }
+
+                    const sharePayload: any = {
                         ...shareData,
-                        text: `${shareData.text}\n\n` // Some native sheets handle URL separately, some append it. Adding newlines to text just in case.
-                    });
+                        text: `${shareData.text}\n\n`
+                    };
+
+                    if (files.length > 0) {
+                        sharePayload.files = files;
+                    }
+
+                    await navigator.share(sharePayload);
                 } catch (err) {
                     console.error('Error sharing:', err);
+                    // If error (e.g. cancelled or file not supported), fall back to text only if it wasn't a user cancellation? 
+                    // Usually navigator.share throws AbortError if user cancels, which is fine to ignore.
+                    // If it failed because of files, we could try text only, but simplistic for now to just log.
+                } finally {
+                    setIsGeneratingImage(false);
                 }
+            } else {
+                toast.error("Sharing not supported on this device.");
             }
         }
     };
@@ -139,7 +174,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                         exit={{ opacity: 0, scale: 0.95, y: 40 }}
                         className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none"
                     >
-                        <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto flex flex-col relative border border-black/5">
+                        <div className="bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto flex flex-col relative border border-black/5" ref={previewRef}>
 
                             {/* Close Button */}
                             <button

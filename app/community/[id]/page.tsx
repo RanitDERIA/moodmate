@@ -1,5 +1,7 @@
 "use client";
 
+
+import { Metadata } from 'next';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -8,7 +10,45 @@ import { VibeDetailedCard } from '@/components/community/vibe-detailed-card';
 import { CommentSection } from '@/components/community/comment-section';
 import { getVibeById, getComments, toggleLike } from '@/lib/supabase';
 import { createClient } from '@/utils/supabase/client';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { toast } from 'sonner';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+    const { id } = await params;
+
+    // Server-side fetch using direct supabase-js client
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabase = createSupabaseClient(supabaseUrl, supabaseKey);
+
+    const { data: vibe } = await supabase
+        .from('community_playlists')
+        .select('emotion, tagline')
+        .eq('id', id)
+        .single();
+
+    if (!vibe) {
+        return {
+            title: 'Vibe Not Found | MoodMate',
+        };
+    }
+
+    return {
+        title: `Feeling ${vibe.emotion} | MoodMate`,
+        description: vibe.tagline || `Check out this ${vibe.emotion} playlist on MoodMate`,
+        openGraph: {
+            title: `Feeling ${vibe.emotion} on MoodMate`,
+            description: vibe.tagline || `Check out this ${vibe.emotion} playlist`,
+            images: [`/community/${id}/opengraph-image`],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `Feeling ${vibe.emotion} on MoodMate`,
+            description: vibe.tagline || `Check out this ${vibe.emotion} playlist`,
+            images: [`/community/${id}/opengraph-image`],
+        }
+    };
+}
 
 export default function VibeDetailsPage() {
     const params = useParams();
