@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Copy, Check, Twitter, Facebook, ExternalLink } from 'lucide-react';
+import { X, Copy, Check, Twitter, Facebook, ExternalLink, Mail, Instagram } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { toast } from 'sonner';
@@ -102,6 +102,16 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
         } else if (platform === 'whatsapp') {
             const waText = encodeURIComponent(messageWithLink);
             window.open(`https://wa.me/?text=${waText}`, '_blank');
+        } else if (platform === 'facebook') {
+            const fbUrl = encodeURIComponent(shareData.url);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${fbUrl}`, '_blank');
+        } else if (platform === 'gmail') {
+            const subject = encodeURIComponent(shareData.title);
+            const body = encodeURIComponent(messageWithLink);
+            window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+        } else if (platform === 'instagram') {
+            // Instagram doesn't have a direct web intent for sharing image/text to feed/stories easily without native API
+            toast.info("Open Instagram on your mobile to share this vibe!");
         } else if (platform === 'native') {
             // Native fallback without image (if image gen failed but share is supported)
             if (navigator.share) {
@@ -239,15 +249,24 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                         {copied ? <Check className="w-6 h-6" /> : <Copy className="w-6 h-6 text-black/40" />}
                                         <span className="text-xs uppercase tracking-wider text-black/60">{copied ? 'Copied!' : 'Copy Link'}</span>
                                     </button>
-                                    <div className="flex gap-2">
-                                        <button onClick={() => handleShare('whatsapp')} className="flex-1 rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity">
-                                            <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-8 h-8" />
+                                    <div className="grid grid-cols-3 gap-2">
+                                        <button onClick={() => handleShare('whatsapp')} className="h-14 rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-8 h-8" alt="WhatsApp" />
                                         </button>
-                                        <button onClick={() => handleShare('twitter')} className="flex-1 rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity">
-                                            <Twitter className="w-6 h-6" />
+                                        <button onClick={() => handleShare('twitter')} className="h-14 rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <Twitter className="w-7 h-7" />
                                         </button>
-                                        <button onClick={() => handleShare('native')} className="flex-1 rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity">
-                                            <ExternalLink className="w-6 h-6" />
+                                        <button onClick={() => handleShare('instagram')} className="h-14 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <Instagram className="w-7 h-7" />
+                                        </button>
+                                        <button onClick={() => handleShare('facebook')} className="h-14 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <Facebook className="w-7 h-7" />
+                                        </button>
+                                        <button onClick={() => handleShare('gmail')} className="h-14 rounded-2xl bg-[#EA4335] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <Mail className="w-7 h-7" />
+                                        </button>
+                                        <button onClick={() => handleShare('native')} className="h-14 rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                            <ExternalLink className="w-7 h-7" />
                                         </button>
                                     </div>
                                 </div>
