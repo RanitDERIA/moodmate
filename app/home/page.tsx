@@ -249,21 +249,21 @@ function HomeContent() {
                     {showResults && (
                         <div className="w-full animate-in fade-in slide-in-from-right-8 duration-700">
                             {isAnalyzing ? (
-                                <div className="bg-white border-[3px] border-black rounded-[32px] p-8 md:p-12 shadow-[8px_8px_0px_0px_#000] flex flex-col items-center justify-center text-center min-h-[400px]">
+                                <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-12 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] flex flex-col items-center justify-center text-center min-h-[300px] md:min-h-[400px]">
                                     <div className="relative">
-                                        <div className="w-24 h-24 border-[6px] border-black border-t-[#FB58B4] rounded-full animate-spin" />
-                                        <div className="absolute inset-0 flex items-center justify-center font-black text-2xl">🧠</div>
+                                        <div className="w-16 h-16 md:w-24 md:h-24 border-[6px] border-black border-t-[#FB58B4] rounded-full animate-spin" />
+                                        <div className="absolute inset-0 flex items-center justify-center font-black text-lg md:text-2xl">🧠</div>
                                     </div>
-                                    <h3 className="mt-8 text-3xl font-black uppercase">Analyzing Vibe...</h3>
-                                    <p className="text-black/60 font-bold mt-2">Connecting to "The Brain"</p>
+                                    <h3 className="mt-8 text-2xl md:text-3xl font-black uppercase">Analyzing Vibe...</h3>
+                                    <p className="text-black/60 font-bold mt-2 text-sm md:text-base">Connecting to "The Brain"</p>
                                 </div>
                             ) : result ? (
                                 <div className="flex flex-col gap-6">
                                     {/* Emotion Result Card */}
-                                    <div className="bg-[#FB58B4] border-[3px] border-black rounded-[32px] p-8 shadow-[8px_8px_0px_0px_#000] text-center relative overflow-hidden hover:scale-[1.02] transition-transform duration-500">
+                                    <div className="bg-[#FB58B4] border-[3px] border-black rounded-[32px] p-6 md:p-8 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] text-center relative overflow-hidden hover:scale-[1.02] transition-transform duration-500">
                                         <div className="relative z-10">
-                                            <p className="font-bold text-black/60 uppercase tracking-widest mb-2">Detected Mood</p>
-                                            <h2 className="text-6xl font-black uppercase tracking-tighter text-white drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                                            <p className="font-bold text-black/60 uppercase tracking-widest mb-2 text-xs md:text-base">Detected Mood</p>
+                                            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] md:drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">
                                                 {result.emotion}
                                             </h2>
                                             <div className="inline-block bg-black text-white px-4 py-1 rounded-full font-bold mt-4 text-sm">
@@ -274,20 +274,20 @@ function HomeContent() {
                                     </div>
 
                                     {/* Song List */}
-                                    <div className="bg-white border-[3px] border-black rounded-[32px] p-8 shadow-[8px_8px_0px_0px_#000] relative">
-                                        <div className="absolute top-8 right-8 flex flex-col items-end gap-0.5 opacity-60 hover:opacity-100 transition-opacity">
+                                    <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-8 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] relative">
+                                        <div className="absolute top-6 right-6 md:top-8 md:right-8 flex flex-col items-end gap-0.5 opacity-60 hover:opacity-100 transition-opacity">
                                             <span className="text-[10px] font-black uppercase tracking-wider leading-none">Powered by</span>
-                                            <img src="/images/spotify.png" alt="Spotify" className="h-5 w-auto" />
+                                            <img src="/images/spotify.png" alt="Spotify" className="h-4 w-auto md:h-5" />
                                         </div>
-                                        <h3 className="text-2xl font-black uppercase mb-6">
+                                        <h3 className="text-xl md:text-2xl font-black uppercase mb-6">
                                             Recommended Tracks
                                         </h3>
-                                        <div className="flex flex-col gap-4">
+                                        <div className="flex flex-col gap-3 md:gap-4">
                                             {result.songs.map((song, idx) => (
                                                 <div
                                                     key={idx}
                                                     onClick={() => handleSongClick(song)}
-                                                    className="group cursor-pointer flex items-center gap-4 p-3 hover:bg-black/5 rounded-xl transition-colors"
+                                                    className="group cursor-pointer flex items-center gap-3 md:gap-4 p-2 md:p-3 hover:bg-black/5 rounded-xl transition-colors"
                                                 >
                                                     {/* Art Placeholder */}
                                                     <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center shrink-0 border border-black/10 group-hover:border-black transition-colors">
