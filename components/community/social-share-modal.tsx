@@ -64,56 +64,51 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
     };
 
     const handleShare = async (platform?: string) => {
-        // Construct the message with line gap for manual links
+        setIsGeneratingImage(true);
         const messageWithLink = `${shareData.text}\n\n${shareData.url}`;
 
+        // 1. Try Native Share with Image first (for all platforms if possible)
+        // Note: We can't strictly target "WhatsApp" with native share, but we can open the sheet with the image.
+        // If the user specifically asked for "Image itself" for these services, we prioritize the file share.
+        if (navigator.share && previewRef.current) {
+            try {
+                const blob = await toBlob(previewRef.current, { cacheBust: true });
+                if (blob) {
+                    const file = new File([blob], 'moodmate-vibe.png', { type: 'image/png' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: shareData.title,
+                            text: messageWithLink, // Attach text + link with image
+                        });
+                        setIsGeneratingImage(false);
+                        return; // Success!
+                    }
+                }
+            } catch (err) {
+                console.log("Native file share failed/unsupported, falling back to intent.", err);
+                // Continue to fallback
+            }
+        }
+
+        setIsGeneratingImage(false);
+
+        // 2. Fallback to Web Intents (Text + Link only)
         if (platform === 'twitter') {
             const tweetText = encodeURIComponent(shareData.text);
             const tweetUrl = encodeURIComponent(shareData.url);
             window.open(`https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`, '_blank');
         } else if (platform === 'whatsapp') {
-            // WhatsApp handles newlines well
             const waText = encodeURIComponent(messageWithLink);
             window.open(`https://wa.me/?text=${waText}`, '_blank');
         } else if (platform === 'native') {
+            // Native fallback without image (if image gen failed but share is supported)
             if (navigator.share) {
-                try {
-                    setIsGeneratingImage(true);
-                    let files: File[] = [];
-
-                    // Try to generate image
-                    if (previewRef.current) {
-                        try {
-                            const blob = await toBlob(previewRef.current, { cacheBust: true });
-                            if (blob) {
-                                const file = new File([blob], 'moodmate-vibe.png', { type: 'image/png' });
-                                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                                    files = [file];
-                                }
-                            }
-                        } catch (imgError) {
-                            console.error("Failed to generate image:", imgError);
-                        }
-                    }
-
-                    const sharePayload: any = {
-                        ...shareData,
-                        text: `${shareData.text}\n\n`
-                    };
-
-                    if (files.length > 0) {
-                        sharePayload.files = files;
-                    }
-
-                    await navigator.share(sharePayload);
-                } catch (err) {
-                    console.error('Error sharing:', err);
-                    // If error (e.g. cancelled or file not supported), fall back to text only if it wasn't a user cancellation? 
-                    // Usually navigator.share throws AbortError if user cancels, which is fine to ignore.
-                    // If it failed because of files, we could try text only, but simplistic for now to just log.
-                } finally {
-                    setIsGeneratingImage(false);
-                }
+                navigator.share({
+                    title: shareData.title,
+                    text: messageWithLink,
+                }).catch(console.error);
             } else {
                 toast.error("Sharing not supported on this device.");
             }
