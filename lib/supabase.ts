@@ -9,12 +9,16 @@ export async function updateCustomPlaylist(playlistId: string, emotion: string, 
     const allValid = links.every(link => isValidMusicLink(link));
     if (!allValid) throw new Error("One or more links are from unsupported platforms.");
 
-    const { error } = await supabase
+    const { data, error } = await supabase
         .from('community_playlists')
         .update({ emotion, links, tagline })
-        .eq('id', playlistId);
+        .eq('id', playlistId)
+        .select();
 
     if (error) throw error;
+    if (!data || data.length === 0) throw new Error("Update failed or permission denied.");
+
+    return data[0];
 }
 
 export async function shareCustomPlaylist(userId: string, emotion: string, links: string[], tagline?: string) {

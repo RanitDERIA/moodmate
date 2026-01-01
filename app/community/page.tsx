@@ -38,17 +38,44 @@ export default function CommunityPage() {
         checkUser();
     }, []);
 
-    const fetchPlaylists = async (userId?: string, filter: string = activeFilter) => {
-        try {
+    const fetchPlaylists = async (userId?: string, filter: string = activeFilter, updatedPlaylist?: any) => {
+        // Optimistic Update Handling
+        if (updatedPlaylist) {
+            setPlaylists(prev => {
+                const exists = prev.find(p => p.id === updatedPlaylist.id);
+                if (exists) {
+                    return prev.map(p => p.id === updatedPlaylist.id ? { ...p, ...updatedPlaylist } : p);
+                } else {
+                    // Prepend new playlist
+                    // We need to reshape it slightly to match the joined structure (profile, etc) temporarily
+                    // Ideally we'd have the profile handy, but we can fall back to the existing user session
+                    const newVibe = {
+                        ...updatedPlaylist,
+                        profile: user?.user_metadata ? {
+                            full_name: user.user_metadata.full_name,
+                            avatar_url: user.user_metadata.avatar_url
+                        } : null,
+                        is_liked: false,
+                        likes: 0,
+                        comments: 0
+                    };
+                    return [newVibe, ...prev];
+                }
+            });
+            // Don't set loading true for optimistic updates, just silent refresh
+        } else {
             setLoading(true);
+        }
+
+        try {
             // Cast filter to expected type
             const { data, error } = await getCommunityPlaylists(userId, filter as 'Latest' | 'Popular' | 'Trending');
             if (error) throw error;
-            console.log("Fetched Playlists Data:", data);
             setPlaylists(data || []);
         } catch (error) {
             console.error("Error fetching playlists:", error);
-            toast.error("Failed to load community vibes.");
+            // Don't show toast on background refresh failures to avoid annoying user
+            if (!updatedPlaylist) toast.error("Failed to load community vibes.");
         } finally {
             setLoading(false);
         }
@@ -245,7 +272,7 @@ export default function CommunityPage() {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 userId={user?.id || ''}
-                onSuccess={fetchPlaylists}
+                onSuccess={(result) => fetchPlaylists(user?.id, activeFilter, result)}
                 initialData={editData}
             />
 

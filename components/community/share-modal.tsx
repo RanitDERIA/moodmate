@@ -11,7 +11,7 @@ interface ShareModalProps {
     isOpen: boolean;
     onClose: () => void;
     userId: string;
-    onSuccess?: () => void;
+    onSuccess?: (result?: any) => void;
     initialData?: any;
 }
 
@@ -80,17 +80,20 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
         setError(null);
 
         try {
+            let result;
             if (initialData) {
                 // Update Mode
-                await updateCustomPlaylist(initialData.id, emotion, links, tagline);
+                result = await updateCustomPlaylist(initialData.id, emotion, links, tagline);
                 toast.success("Vibe updated successfully!");
             } else {
                 // Create Mode
-                await shareCustomPlaylist(userId, emotion, links, tagline);
+                // Note: shareCustomPlaylist returns { data, error }, we need to handle that structure
+                const { data } = await shareCustomPlaylist(userId, emotion, links, tagline);
+                result = data ? data[0] : null; // insert returns array
                 toast.success("Vibe shared successfully!");
             }
 
-            if (onSuccess) onSuccess();
+            if (onSuccess && result) onSuccess(result);
             onClose();
         } catch (err: any) {
             setError(err.message || "Failed to share vibe.");
