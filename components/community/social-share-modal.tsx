@@ -279,52 +279,52 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                 {/* Content */}
                                 <div className="p-5 md:p-8 pb-0 md:pb-0">
                                     {/* Preview Card - Mimicking the design */}
-                                    <div className="bg-white rounded-[24px] md:rounded-[32px] p-4 md:p-6 shadow-xl border border-black/5 mb-6 md:mb-8 transform transition-transform hover:scale-[1.02] duration-500">
+                                    <div className="bg-white rounded-[24px] md:rounded-[32px] p-3 md:p-6 shadow-xl border border-black/5 mb-4 md:mb-8 transform transition-transform hover:scale-[1.02] duration-500">
                                         {/* Header */}
-                                        <div className="flex justify-between items-start mb-6">
-                                            <div className="flex gap-3">
-                                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-black/10 overflow-hidden bg-gray-50 flex items-center justify-center shrink-0 ring-4 ring-yellow-400">
+                                        <div className="flex justify-between items-start mb-4 md:mb-6">
+                                            <div className="flex gap-2 md:gap-3">
+                                                <div className="w-8 h-8 md:w-12 md:h-12 rounded-full border border-black/10 overflow-hidden bg-gray-50 flex items-center justify-center shrink-0 ring-2 md:ring-4 ring-yellow-400">
                                                     {avatarSrc ? (
                                                         <img src={avatarSrc} alt="User" className="w-full h-full object-cover" />
                                                     ) : (
-                                                        <span className="font-black text-xs md:text-sm text-black/80">{getInitials(displayName)}</span>
+                                                        <span className="font-black text-[10px] md:text-sm text-black/80">{getInitials(displayName)}</span>
                                                     )}
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-black text-base md:text-lg leading-none">{displayName}</h3>
-                                                    <p className="text-[10px] md:text-xs font-medium text-black/40 mt-1">{dateStr}</p>
+                                                    <h3 className="font-black text-sm md:text-lg leading-none">{displayName}</h3>
+                                                    <p className="text-[9px] md:text-xs font-medium text-black/40 mt-1">{dateStr}</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-2">
-                                                <VibeBadge emotion={playlist?.emotion} className="text-[10px]" />
+                                                <VibeBadge emotion={playlist?.emotion} className="text-[9px] md:text-xs scale-90 md:scale-100 origin-top-right" />
                                             </div>
                                         </div>
 
                                         {/* Main Text */}
-                                        <div className="mb-4 md:mb-6">
-                                            <h2 className="text-xl md:text-3xl font-black leading-tight mb-2">
+                                        <div className="mb-3 md:mb-6">
+                                            <h2 className="text-lg md:text-3xl font-black leading-tight mb-1 md:mb-2">
                                                 Feeling <span className="text-[#8B5CF6]">{playlist?.emotion}</span> today.
                                             </h2>
                                             {playlist?.tagline && (
-                                                <p className="text-sm md:text-lg text-black/50 font-medium italic">"{playlist.tagline}"</p>
+                                                <p className="text-xs md:text-lg text-black/50 font-medium italic">"{playlist.tagline}"</p>
                                             )}
                                         </div>
 
                                         {/* Footer / Link */}
-                                        <div className="flex gap-3 md:gap-4 items-stretch h-16 md:h-20">
+                                        <div className="flex gap-2 md:gap-4 items-stretch h-12 md:h-20">
                                             {/* Link Pill */}
-                                            <div className={`flex-1 rounded-2xl flex items-center px-3 md:px-4 gap-2 md:gap-3 bg-opacity-10`} style={{ backgroundColor: `${platform.color}15` }}>
-                                                <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0 p-1.5">
-                                                    {platform.icon ? <img src={platform.icon} className="w-full h-full object-contain" /> : <ExternalLink className="w-4 h-4 md:w-5 md:h-5 opacity-50" />}
+                                            <div className={`flex-1 rounded-xl md:rounded-2xl flex items-center px-2 md:px-4 gap-2 md:gap-3 bg-opacity-10`} style={{ backgroundColor: `${platform.color}15` }}>
+                                                <div className="w-6 h-6 md:w-10 md:h-10 bg-white rounded-lg md:rounded-xl shadow-sm flex items-center justify-center shrink-0 p-1 md:p-1.5">
+                                                    {platform.icon ? <img src={platform.icon} className="w-full h-full object-contain" /> : <ExternalLink className="w-3 h-3 md:w-5 md:h-5 opacity-50" />}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className="font-bold text-xs md:text-sm truncate text-black/80">Listen on {platform.name}</p>
-                                                    <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-black/40" style={{ color: platform.color }}>Click to Play</p>
+                                                    <p className="font-bold text-[10px] md:text-sm truncate text-black/80">Listen on {platform.name}</p>
+                                                    <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-wider text-black/40" style={{ color: platform.color }}>Click to Play</p>
                                                 </div>
                                             </div>
 
                                             {/* Right Abstract Box (Mock Thumbnail) */}
-                                            <div className="w-16 md:w-20 rounded-2xl bg-black overflow-hidden relative shrink-0">
+                                            <div className="w-12 md:w-20 rounded-xl md:rounded-2xl bg-black overflow-hidden relative shrink-0">
                                                 <img src={activeThumbnail} className="w-full h-full object-cover opacity-80" alt="Cover" />
                                             </div>
                                         </div>
