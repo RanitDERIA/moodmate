@@ -67,10 +67,9 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
         setIsGeneratingImage(true);
         const messageWithLink = `${shareData.text}\n\n${shareData.url}`;
 
-        // 1. Try Native Share with Image first (for all platforms if possible)
-        // Note: We can't strictly target "WhatsApp" with native share, but we can open the sheet with the image.
-        // If the user specifically asked for "Image itself" for these services, we prioritize the file share.
-        if (navigator.share && previewRef.current) {
+        // Feature: For WhatsApp (and native), try to share the Image + Text via Native Share Sheet first.
+        // This is the only way to "share image" to WhatsApp from a web app on mobile.
+        if ((platform === 'whatsapp' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
             try {
                 const blob = await toBlob(previewRef.current, { cacheBust: true });
                 if (blob) {
@@ -88,7 +87,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                 }
             } catch (err) {
                 console.log("Native file share failed/unsupported, falling back to intent.", err);
-                // Continue to fallback
+                // Fallback will happen below
             }
         }
 
@@ -100,6 +99,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
             const tweetUrl = encodeURIComponent(shareData.url);
             window.open(`https://twitter.com/intent/tweet?text=${tweetText}&url=${tweetUrl}`, '_blank');
         } else if (platform === 'whatsapp') {
+            // Fallback for WhatsApp (Desktop or non-supported mobile browsers): Text + Link
             const waText = encodeURIComponent(messageWithLink);
             window.open(`https://wa.me/?text=${waText}`, '_blank');
         } else if (platform === 'facebook') {
