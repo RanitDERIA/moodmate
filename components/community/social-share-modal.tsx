@@ -46,21 +46,21 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
 
     const activeThumbnail = thumbnail || fetchedThumbnail || "/thumbnails/spot1.png"; // Fallback
 
+    const shareData = {
+        title: `Check out this ${playlist?.emotion} vibe`,
+        text: `Give this playlist a listen: ${playlist?.emotion}`,
+        url: shareUrl
+    };
+
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(shareUrl);
+            await navigator.clipboard.writeText(`${shareData.text}\n\n${shareData.url}`);
             setCopied(true);
             toast.success("Link copied to clipboard!");
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             toast.error("Failed to copy link");
         }
-    };
-
-    const shareData = {
-        title: `Check out this ${playlist?.emotion} vibe`,
-        text: `Give this playlist a listen: ${playlist?.emotion}`,
-        url: shareUrl
     };
 
     const handleShare = async (platform?: string) => {
