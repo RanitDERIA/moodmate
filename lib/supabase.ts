@@ -101,15 +101,20 @@ export async function deletePlaylist(playlistId: string) {
     if (error) throw error;
 }
 
-export async function getCommunityPlaylists(currentUserId?: string) {
+export async function getCommunityPlaylists(currentUserId?: string, sortBy: 'Latest' | 'Popular' | 'Trending' = 'Latest') {
     const supabase = createClient();
 
-    // 1. Fetch Playlists
+    // 1. Fetch Playlists with Counts
+    // We fetch a larger batch to sort client-side since relation sorting is complex
     const { data: playlists, error: playlistError } = await supabase
         .from('community_playlists')
-        .select('*')
+        .select(`
+            *,
+            playlist_likes(count),
+            comments(count)
+        `)
         .order('created_at', { ascending: false })
-        .limit(50);
+        .limit(100);
 
     if (playlistError) {
         return { data: null, error: playlistError };
@@ -119,7 +124,7 @@ export async function getCommunityPlaylists(currentUserId?: string) {
         return { data: [], error: null };
     }
 
-    // 2. Extract User IDs to fetch profiles
+    // 2. Extract User IDs
     const userIds = Array.from(new Set(playlists.map(p => p.user_id)));
 
     // 3. Fetch Profiles
@@ -146,14 +151,24 @@ export async function getCommunityPlaylists(currentUserId?: string) {
         }
     }
 
-    // 5. Merge Data
+    // 5. Merge & Sort
     const profilesMap = new Map(profiles?.map(p => [p.id, p]));
 
-    const mergedData = playlists.map(p => ({
+    let mergedData = playlists.map(p => ({
         ...p,
         profile: profilesMap.get(p.user_id) || null,
-        is_liked: likedPlaylistIds.has(p.id)
+        is_liked: likedPlaylistIds.has(p.id),
+        likes: p.playlist_likes?.[0]?.count || 0,
+        comments: p.comments?.[0]?.count || 0
     }));
+
+    // Client-side Sort
+    if (sortBy === 'Popular') {
+        mergedData.sort((a, b) => b.likes - a.likes);
+    } else if (sortBy === 'Trending') {
+        mergedData.sort((a, b) => b.comments - a.comments);
+    }
+    // 'Latest' is already sorted by created_at desc from query
 
     return { data: mergedData, error: null };
 }

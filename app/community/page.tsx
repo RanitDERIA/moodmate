@@ -38,10 +38,11 @@ export default function CommunityPage() {
         checkUser();
     }, []);
 
-    const fetchPlaylists = async (userId?: string) => {
+    const fetchPlaylists = async (userId?: string, filter: string = activeFilter) => {
         try {
             setLoading(true);
-            const { data, error } = await getCommunityPlaylists(userId);
+            // Cast filter to expected type
+            const { data, error } = await getCommunityPlaylists(userId, filter as 'Latest' | 'Popular' | 'Trending');
             if (error) throw error;
             console.log("Fetched Playlists Data:", data);
             setPlaylists(data || []);
@@ -102,20 +103,9 @@ export default function CommunityPage() {
         // Search Filter
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
-            const matchesEmotion = playlist.emotion.toLowerCase().includes(query);
-            // Search links too? Maybe overkill, but why not.
-            return matchesEmotion;
+            return playlist.emotion.toLowerCase().includes(query);
         }
-
-        // Tab Filter (Mock logic for now since we don't have 'likes')
-        // In real app, 'Popular' would sort by likes count.
         return true;
-    }).sort((a, b) => {
-        if (activeFilter === 'Latest') {
-            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        }
-        // Mock sorting for others
-        return 0;
     });
 
     const handleVibeUpdate = (updatedVibe: any) => {
@@ -161,7 +151,10 @@ export default function CommunityPage() {
                         <SearchFilterBar
                             onSearch={setSearchQuery}
                             activeFilter={activeFilter}
-                            onFilterChange={setActiveFilter}
+                            onFilterChange={(filter) => {
+                                setActiveFilter(filter);
+                                fetchPlaylists(user?.id, filter);
+                            }}
                             onCreatePost={handleShareClick}
                         />
                     </motion.div>

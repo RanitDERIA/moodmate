@@ -113,9 +113,9 @@ export function VibeDetailsModal({ isOpen, onClose, playlistId, selectedImage, c
                             {/* Close Button */}
                             <button
                                 onClick={onClose}
-                                className="absolute top-6 right-6 z-20 p-2 bg-white/50 backdrop-blur-md text-black hover:bg-white rounded-full transition-all border border-black/5 shadow-sm"
+                                className="absolute top-6 right-6 z-20 p-2 bg-white/50 backdrop-blur-md text-red-500 hover:bg-red-50 rounded-full transition-all border border-black/5 shadow-sm"
                             >
-                                <X className="w-5 h-5" />
+                                <X className="w-5 h-5 currentColor" />
                             </button>
 
                             <div className="flex-1 overflow-y-auto no-scrollbar">
