@@ -121,14 +121,14 @@ export default function LandingPage() {
                     </div>
 
                     {/* Right: Visuals */}
-                    <div className="relative h-[600px] hidden lg:flex items-center justify-center">
+                    <div className="relative h-[400px] lg:h-[600px] flex items-center justify-center mt-10 lg:mt-0">
                         {/* Main Image Container */}
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
                             animate={{ scale: 1, opacity: 1, rotate: -3 }}
                             whileHover={{ rotate: 0, scale: 1.02 }}
                             transition={{ type: "spring", bounce: 0.4 }}
-                            className="relative w-[400px] h-[500px] bg-[#FB58B4] border-[4px] border-black rounded-[50px] shadow-[16px_16px_0px_0px_#000] z-10 flex items-end justify-center overflow-hidden"
+                            className="relative w-[260px] h-[340px] lg:w-[400px] lg:h-[500px] bg-[#FB58B4] border-[4px] border-black rounded-[40px] lg:rounded-[50px] shadow-[12px_12px_0px_0px_#000] lg:shadow-[16px_16px_0px_0px_#000] z-10 flex items-end justify-center overflow-hidden"
                         >
                             <img
                                 src="/images/land.png"
@@ -140,24 +140,24 @@ export default function LandingPage() {
                         {/* Interactive Stickers */}
                         <motion.div
                             drag
-                            dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
+                            dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
                             whileHover={{ scale: 1.1, cursor: "grab" }}
                             whileDrag={{ scale: 1.2, cursor: "grabbing" }}
                             animate={{ y: [0, -15, 0] }}
                             transition={{ y: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
-                            className="absolute top-20 left-10 z-20 bg-[#3DD598] border-[3px] border-black p-4 rounded-xl shadow-[8px_8px_0px_0px_#000] rotate-[-10deg]"
+                            className="absolute top-8 lg:top-20 left-2 lg:left-10 z-20 bg-[#3DD598] border-[3px] border-black p-3 lg:p-4 rounded-xl shadow-[6px_6px_0px_0px_#000] lg:shadow-[8px_8px_0px_0px_#000] rotate-[-10deg]"
                         >
-                            <Music className="w-8 h-8 text-black" />
+                            <Music className="w-6 h-6 lg:w-8 lg:h-8 text-black" />
                         </motion.div>
 
                         <motion.div
                             drag
-                            dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
+                            dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
                             whileHover={{ scale: 1.1, cursor: "grab", rotate: 15 }}
                             whileDrag={{ scale: 1.2, cursor: "grabbing" }}
-                            className="absolute top-1/2 -right-8 z-20 bg-[#FACC55] border-[3px] border-black p-5 rounded-full shadow-[8px_8px_0px_0px_#000] rotate-[10deg]"
+                            className="absolute top-1/2 -right-0 lg:-right-8 z-20 bg-[#FACC55] border-[3px] border-black p-4 lg:p-5 rounded-full shadow-[6px_6px_0px_0px_#000] lg:shadow-[8px_8px_0px_0px_#000] rotate-[10deg]"
                         >
-                            <Activity className="w-10 h-10 text-black animate-pulse" />
+                            <Activity className="w-8 h-8 lg:w-10 lg:h-10 text-black animate-pulse" />
                         </motion.div>
 
                         <motion.div
@@ -167,10 +167,10 @@ export default function LandingPage() {
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.5 }}
-                            className="absolute bottom-12 -left-8 z-20 bg-white border-[3px] border-black py-3 px-6 rounded-full shadow-[8px_8px_0px_0px_#000] flex items-center gap-2 rotate-[5deg]"
+                            className="absolute bottom-6 lg:bottom-12 -left-0 lg:-left-8 z-20 bg-white border-[3px] border-black py-2 px-4 lg:py-3 lg:px-6 rounded-full shadow-[6px_6px_0px_0px_#000] lg:shadow-[8px_8px_0px_0px_#000] flex items-center gap-2 rotate-[5deg]"
                         >
-                            <div className="w-3 h-3 bg-red-500 rounded-full animate-ping" />
-                            <span className="font-black text-sm text-black">Live Scanning</span>
+                            <div className="w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full animate-ping" />
+                            <span className="font-black text-xs lg:text-sm text-black">Live Scanning</span>
                         </motion.div>
                     </div>
                 </div>

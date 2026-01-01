@@ -98,7 +98,7 @@ export function Navbar() {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="p-2 border-[2px] border-black rounded-md hover:bg-black/5"
+                            className="p-2 border-none rounded-md hover:bg-black/5"
                         >
                             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
@@ -140,6 +140,13 @@ export function Navbar() {
                                         onClick={() => setIsOpen(false)}
                                     >
                                         Community
+                                    </Link>
+                                    <Link
+                                        href="/profile"
+                                        className="block font-bold text-lg p-2 hover:bg-black/5 rounded-lg"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        Profile
                                     </Link>
                                 </>
                             )}
