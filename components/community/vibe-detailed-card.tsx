@@ -79,7 +79,7 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
             {/* Header / Meta */}
             <div className="p-4 md:p-8 border-b border-black/5 bg-gray-50/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-black/10 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 group-hover:ring-4 group-hover:ring-yellow-400">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-black/10 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 ring-4 ring-yellow-400 md:ring-0 md:group-hover:ring-4 md:group-hover:ring-yellow-400">
                         {avatarSrc ? (
                             <img src={avatarSrc} alt={displayName} className="w-full h-full object-cover" />
                         ) : (
