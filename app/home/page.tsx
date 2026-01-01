@@ -166,7 +166,7 @@ function HomeContent() {
                         {/* OR Separator + Text Input + Button */}
                         <div className="flex flex-col md:flex-row items-center gap-4 w-full max-w-2xl">
                             <span className="text-xl font-black uppercase shrink-0 text-black/60">OR</span>
-                            <div className="flex-1 grid grid-cols-3 gap-3 w-full">
+                            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
                                 <input
                                     type="text"
                                     value={textInput}
@@ -174,18 +174,18 @@ function HomeContent() {
                                     placeholder="Describe your current vibe..."
                                     onKeyDown={(e) => e.key === 'Enter' && handleVibeCheck()}
                                     disabled={isAnalyzing}
-                                    className="col-span-2 w-full bg-white border-2 border-gray-200 rounded-xl px-6 py-4 font-medium text-lg focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 transition-all duration-300 ease-out hover:border-black placeholder:text-gray-400 disabled:opacity-50"
+                                    className="col-span-1 md:col-span-2 w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 md:px-6 md:py-4 font-medium text-base md:text-lg focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 transition-all duration-300 ease-out hover:border-black placeholder:text-gray-400 disabled:opacity-50"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => handleVibeCheck()}
                                     disabled={isAnalyzing}
-                                    className="col-span-1 w-full bg-[#FACC55] text-black rounded-xl px-4 py-4 font-bold text-lg uppercase hover:bg-[#E3B645] transform transition-all active:scale-95 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    className="col-span-1 w-full bg-[#FACC55] text-black rounded-xl px-4 py-3 md:px-4 md:py-4 font-bold text-base md:text-lg uppercase hover:bg-[#E3B645] transform transition-all active:scale-95 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                 >
                                     {isAnalyzing ? (
                                         <>
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            <span className="hidden md:inline">Analyzing</span>
+                                            <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
+                                            <span className="inline">Analyzing</span>
                                         </>
                                     ) : (
                                         'Vibe Check'
@@ -276,8 +276,8 @@ function HomeContent() {
                                     {/* Song List */}
                                     <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-8 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] relative">
                                         <div className="absolute top-6 right-6 md:top-8 md:right-8 flex flex-col items-end gap-0.5 opacity-60 hover:opacity-100 transition-opacity">
-                                            <span className="text-[10px] font-black uppercase tracking-wider leading-none">Powered by</span>
-                                            <img src="/images/spotify.png" alt="Spotify" className="h-4 w-auto md:h-5" />
+                                            <span className="text-[8px] md:text-[10px] font-black uppercase tracking-wider leading-none">Powered by</span>
+                                            <img src="/images/spotify.png" alt="Spotify" className="h-3 md:h-5 w-auto" />
                                         </div>
                                         <h3 className="text-xl md:text-2xl font-black uppercase mb-6">
                                             Recommended Tracks
