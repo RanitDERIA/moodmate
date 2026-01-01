@@ -69,7 +69,8 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
 
         // Feature: For WhatsApp (and native), try to share the Image + Text via Native Share Sheet first.
         // This is the only way to "share image" to WhatsApp from a web app on mobile.
-        if ((platform === 'whatsapp' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
+        // Also applying for Twitter (X) and Instagram as requested.
+        if ((platform === 'whatsapp' || platform === 'twitter' || platform === 'instagram' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
             try {
                 const blob = await toBlob(previewRef.current, { cacheBust: true, backgroundColor: '#ffffff', pixelRatio: 2 });
                 if (blob) {
@@ -341,8 +342,10 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                                 <button onClick={() => handleShare('whatsapp')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
                                                     <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-5 h-5 md:w-8 md:h-8" alt="WhatsApp" />
                                                 </button>
-                                                <button onClick={() => handleShare('twitter')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                    <Twitter className="w-4 h-4 md:w-7 md:h-7" />
+                                                <button onClick={() => handleShare('twitter')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200 border border-white/10">
+                                                    <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-6 md:h-6" fill="currentColor">
+                                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                                    </svg>
                                                 </button>
                                                 <button onClick={() => handleShare('instagram')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
                                                     <Instagram className="w-4 h-4 md:w-7 md:h-7" />

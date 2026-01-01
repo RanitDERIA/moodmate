@@ -136,7 +136,7 @@ export default function LandingPage() {
                                 className="w-full h-full object-cover object-center grayscale-[20%] contrast-125 hover:grayscale-0 transition-all duration-500"
                             />
                         </motion.div>
-
+                        
                         {/* Interactive Stickers */}
                         <motion.div
                             drag
