@@ -77,9 +77,9 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
     return (
         <div className="bg-white rounded-[40px] border border-black/5 overflow-hidden shadow-xl group">
             {/* Header / Meta */}
-            <div className="p-8 border-b border-black/5 bg-gray-50/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="p-4 md:p-8 border-b border-black/5 bg-gray-50/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full border border-black/10 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 group-hover:ring-4 group-hover:ring-yellow-400">
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-black/10 overflow-hidden bg-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-300 group-hover:ring-4 group-hover:ring-yellow-400">
                         {avatarSrc ? (
                             <img src={avatarSrc} alt={displayName} className="w-full h-full object-cover" />
                         ) : (
@@ -87,8 +87,8 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
                         )}
                     </div>
                     <div>
-                        <h2 className="text-2xl font-black text-black leading-tight">{displayName}</h2>
-                        <div className="flex items-center gap-2 text-black/50 font-bold text-sm mt-1">
+                        <h2 className="text-xl md:text-2xl font-black text-black leading-tight">{displayName}</h2>
+                        <div className="flex items-center gap-2 text-black/50 font-bold text-xs md:text-sm mt-1">
                             <Calendar className="w-4 h-4" />
                             {formattedDate}
                         </div>
@@ -114,17 +114,17 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
             </div>
 
             {/* Content */}
-            <div className="p-8">
+            <div className="p-4 md:p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* LEFT COLUMN: Info & Links (Spans 2 cols) */}
-                    <div className="lg:col-span-2 space-y-8">
+                    <div className="lg:col-span-2 space-y-6 md:space-y-8">
                         {/* Vibe Statement */}
-                        <div className="space-y-4">
-                            <h1 className="text-3xl md:text-4xl font-black text-black leading-tight">
+                        <div className="space-y-2 md:space-y-4">
+                            <h1 className="text-2xl md:text-4xl font-black text-black leading-tight">
                                 Feeling <span className="text-[#7c3aed]">{playlist.emotion}</span> today.
                             </h1>
                             {playlist.tagline && (
-                                <p className="text-xl text-black/60 font-medium italic border-l-4 border-black/10 pl-4 py-1">
+                                <p className="text-base md:text-xl text-black/60 font-medium italic border-l-4 border-black/10 pl-4 py-1">
                                     "{playlist.tagline}"
                                 </p>
                             )}
@@ -179,7 +179,7 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
                                         href={link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className={`flex items-center gap-4 p-6 rounded-3xl border border-black/5 hover:shadow-lg transition-all group ${brandColor} bg-opacity-20`}
+                                        className={`flex items-center gap-4 p-4 md:p-6 rounded-3xl border border-black/5 hover:shadow-lg transition-all group ${brandColor} bg-opacity-20`}
                                     >
                                         <div className="w-12 h-12 flex items-center justify-center shrink-0">
                                             {icon}
@@ -199,7 +199,7 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
 
                     {/* RIGHT COLUMN: Thumbnail */}
                     {activeThumbnail && (
-                        <div className="hidden lg:block lg:col-span-1">
+                        <div className="block lg:col-span-1 order-first lg:order-last">
                             <div className="aspect-square rounded-[32px] overflow-hidden border border-black/5 shadow-sm relative group bg-gray-50">
                                 <img
                                     src={activeThumbnail}
