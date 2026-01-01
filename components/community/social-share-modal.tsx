@@ -76,10 +76,19 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                     const file = new File([blob], 'moodmate-vibe.png', { type: 'image/png' });
 
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        // Workaround: Some apps/devices ignore 'text' when sharing files. 
+                        // We copy the text to clipboard so the user can paste it if needed.
+                        try {
+                            await navigator.clipboard.writeText(messageWithLink);
+                            toast.success("Caption copied! Paste it if missing.");
+                        } catch (e) {
+                            // Ignore clipboard error
+                        }
+
                         await navigator.share({
                             files: [file],
                             title: shareData.title,
-                            text: messageWithLink, // Attach text + link with image
+                            text: messageWithLink,
                         });
                         setIsGeneratingImage(false);
                         return; // Success!
