@@ -112,6 +112,7 @@ export function Footer() {
                         </h4>
                         <Link href="/home" className="font-bold text-black/60 hover:text-black hover:translate-x-1 transition-all">Vibe Check</Link>
                         <Link href="/vibes" className="font-bold text-black/60 hover:text-black hover:translate-x-1 transition-all">Mood Presets</Link>
+                        <Link href="/community" className="font-bold text-black/60 hover:text-black hover:translate-x-1 transition-all">Community</Link>
                         <Link href="/about" className="font-bold text-black/60 hover:text-black hover:translate-x-1 transition-all">About Us</Link>
                     </div>
 
