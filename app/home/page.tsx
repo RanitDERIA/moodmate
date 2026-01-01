@@ -8,11 +8,12 @@ import { analyzeMood } from '@/lib/api';
 import { ApiResponse } from '@/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Loader2, Music2, ExternalLink, Camera } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Suspense } from 'react';
 
 function HomeContent() {
-    const webcamRef = useRef<{ capture: () => string | null }>(null);
+    const webcamRef = useRef<{ capture: () => string | null; stop: () => void }>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<ApiResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -52,6 +53,10 @@ function HomeContent() {
 
                 const data = await response.json();
                 setResult(data);
+                toast.success('Vibe Check Verified!', {
+                    description: `Detected: ${data.emotion}`,
+                });
+                setTextInput(''); // Clear input on success
                 return;
             }
 
@@ -66,6 +71,10 @@ function HomeContent() {
 
             const data = await analyzeMood(imageBase64);
             setResult(data);
+            toast.success('Visual Vibe Captured!', {
+                description: `Detected: ${data.emotion}`,
+            });
+            webcamRef.current.stop(); // Stop camera on success
 
         } catch (err) {
             console.error(err);
@@ -154,10 +163,10 @@ function HomeContent() {
                 </div>
 
                 {/* Input Section: Dynamic Layout (Scanner -> Results) */}
-                <div className={`transition-all duration-500 ease-in-out w-full ${showResults ? 'grid md:grid-cols-2 gap-8 items-start' : 'flex flex-col items-center'} animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300`}>
+                <div className={`transition-all duration-500 ease-in-out w-full grid grid-cols-1 ${showResults ? 'md:grid-cols-2 md:grid-rows-[auto_1fr]' : ''} gap-8 items-start animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300`}>
 
-                    {/* Left Side: Scanner & Verify Input */}
-                    <div className={`flex flex-col items-center gap-8 w-full ${showResults ? '' : 'max-w-2xl'}`}>
+                    {/* Left Side: Scanner & Verify Input (Row 1) */}
+                    <div className={`flex flex-col items-center gap-8 w-full ${showResults ? 'md:col-start-1 md:row-start-1 h-fit' : 'max-w-2xl mx-auto'}`}>
                         {/* Camera Feed */}
                         <div className="w-full">
                             <WebcamView ref={webcamRef} />
@@ -194,60 +203,16 @@ function HomeContent() {
                             </div>
                         </div>
 
-                        {showResults && (
-                            <div className="w-full mt-4 flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-                                {/* AI Credits */}
-                                <div className="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
-                                    <h4 className="font-bold uppercase text-xs text-black/60 mb-4 tracking-wider">Powered By</h4>
-                                    <div className="flex flex-col gap-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 flex items-center justify-center">
-                                                <img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-icon.svg" alt="Kaggle" className="w-8 h-8 object-contain" />
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-sm">Visual Analysis</p>
-                                                <p className="text-xs text-gray-500 font-medium">Custom Model (Kaggle Dataset)</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 flex items-center justify-center">
-                                                <img src="https://ollama.com/public/ollama_holidays.png" alt="Ollama" className="w-8 h-8 object-contain" />
-                                            </div>
-                                            <div>
-                                                <p className="font-bold text-sm">Text Analysis</p>
-                                                <p className="text-xs text-gray-500 font-medium">GROK (Llama 3.3)</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Pro Tips */}
-                                <div className="px-2">
-                                    <h4 className="font-bold uppercase text-xs text-black/60 mb-4 tracking-wider pl-4">Pro Tips</h4>
-                                    <ul className="space-y-3">
-                                        <li className="flex items-start gap-3 text-sm text-black/80 font-medium bg-white p-3 rounded-lg border-2 border-black/5 hover:border-black/10 transition-colors">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-[#FACC55] mt-1.5 shrink-0" />
-                                            Ensure your face is well-lit for accurate emotion detection.
-                                        </li>
-                                        <li className="flex items-start gap-3 text-sm text-black/80 font-medium bg-white p-3 rounded-lg border-2 border-black/5 hover:border-black/10 transition-colors">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-[#FACC55] mt-1.5 shrink-0" />
-                                            Try describing your mood in detail for better song matches.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        )}
-
                         {error && (
-                            <div className="w-full bg-red-100 border-[3px] border-black text-red-600 p-4 rounded-xl font-bold text-center animate-in fade-in slide-in-from-top-2">
+                            <div className="w-full max-w-[90vw] md:max-w-full bg-red-100 border-[3px] border-black text-red-600 p-3 md:p-4 rounded-xl font-bold text-center text-sm md:text-base break-words animate-in fade-in slide-in-from-top-2 mx-auto">
                                 {error}
                             </div>
                         )}
                     </div>
 
-                    {/* Right Side: Results (Only visible when Analyzing or Result is present) */}
+                    {/* Right Side: Results (Spans Rows on Desktop) */}
                     {showResults && (
-                        <div className="w-full animate-in fade-in slide-in-from-right-8 duration-700">
+                        <div className="w-full animate-in fade-in slide-in-from-right-8 duration-700 md:col-start-2 md:row-span-2 md:row-start-1">
                             {isAnalyzing ? (
                                 <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-12 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] flex flex-col items-center justify-center text-center min-h-[300px] md:min-h-[400px]">
                                     <div className="relative">
@@ -274,14 +239,18 @@ function HomeContent() {
                                     </div>
 
                                     {/* Song List */}
-                                    <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-8 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] relative">
-                                        <div className="absolute top-6 right-6 md:top-8 md:right-8 flex flex-col items-end gap-0.5 opacity-60 hover:opacity-100 transition-opacity">
-                                            <span className="text-[8px] md:text-[10px] font-black uppercase tracking-wider leading-none">Powered by</span>
-                                            <img src="/images/spotify.png" alt="Spotify" className="h-3 md:h-5 w-auto" />
+                                    <div className="bg-white border-[3px] border-black rounded-[32px] p-6 md:p-8 shadow-[4px_4px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] relative group">
+                                        {/* Header Area */}
+                                        <div className="flex flex-col md:block mb-6">
+                                            <h3 className="text-xl md:text-2xl font-black uppercase">
+                                                Recommended Tracks
+                                            </h3>
+                                            <div className="mt-2 md:mt-0 md:absolute md:top-8 md:right-8 flex items-center md:flex-col md:items-end gap-2 md:gap-0.5 opacity-60 hover:opacity-100 transition-opacity">
+                                                <span className="text-[10px] font-black uppercase tracking-wider leading-none">Powered by</span>
+                                                <img src="/images/spotify.png" alt="Spotify" className="h-4 md:h-5 w-auto" />
+                                            </div>
                                         </div>
-                                        <h3 className="text-xl md:text-2xl font-black uppercase mb-6">
-                                            Recommended Tracks
-                                        </h3>
+
                                         <div className="flex flex-col gap-3 md:gap-4">
                                             {result.songs.map((song, idx) => (
                                                 <div
@@ -308,6 +277,51 @@ function HomeContent() {
                                     </div>
                                 </div>
                             ) : null}
+                        </div>
+                    )}
+
+                    {/* Info Section: Credits & Tips (Mobile: Last, Desktop: Col 1 Row 2) */}
+                    {showResults && (
+                        <div className="w-full flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 md:col-start-1 md:row-start-2">
+                            {/* AI Credits */}
+                            <div className="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
+                                <h4 className="font-bold uppercase text-xs text-black/60 mb-4 tracking-wider">Powered By</h4>
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            <img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-icon.svg" alt="Kaggle" className="w-8 h-8 object-contain" />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-sm">Visual Analysis</p>
+                                            <p className="text-xs text-gray-500 font-medium">Custom Model (Kaggle Dataset)</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 flex items-center justify-center">
+                                            <img src="https://ollama.com/public/ollama_holidays.png" alt="Ollama" className="w-8 h-8 object-contain" />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-sm">Text Analysis</p>
+                                            <p className="text-xs text-gray-500 font-medium">GROK (Llama 3.3)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Pro Tips */}
+                            <div className="px-2">
+                                <h4 className="font-bold uppercase text-xs text-black/60 mb-4 tracking-wider pl-4">Pro Tips</h4>
+                                <ul className="space-y-3">
+                                    <li className="flex items-start gap-3 text-sm text-black/80 font-medium bg-white p-3 rounded-lg border-2 border-black/5 hover:border-black/10 transition-colors">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#FACC55] mt-1.5 shrink-0" />
+                                        Ensure your face is well-lit for accurate emotion detection.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-sm text-black/80 font-medium bg-white p-3 rounded-lg border-2 border-black/5 hover:border-black/10 transition-colors">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#FACC55] mt-1.5 shrink-0" />
+                                        Try describing your mood in detail for better song matches.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     )}
                 </div>

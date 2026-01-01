@@ -8,7 +8,7 @@ interface WebcamViewProps {
 }
 
 export const WebcamView = React.forwardRef<
-  { capture: () => string | null },
+  { capture: () => string | null; stop: () => void },
   WebcamViewProps
 >(({ onCapture }, ref) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -70,6 +70,13 @@ export const WebcamView = React.forwardRef<
       if (onCapture) onCapture(imageBase64);
       return imageBase64;
     },
+    stop: () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        setStream(null);
+        setIsActive(false);
+      }
+    }
   }));
 
   if (!stream || error) {
