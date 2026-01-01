@@ -69,8 +69,8 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
 
         // Feature: For WhatsApp (and native), try to share the Image + Text via Native Share Sheet first.
         // This is the only way to "share image" to WhatsApp from a web app on mobile.
-        // Also applying for Twitter (X) and Instagram as requested.
-        if ((platform === 'whatsapp' || platform === 'twitter' || platform === 'instagram' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
+        // Also applying for Instagram as requested. Twitter/X will use text-only intent.
+        if ((platform === 'whatsapp' || platform === 'instagram' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
             try {
                 const blob = await toBlob(previewRef.current, { cacheBust: true, backgroundColor: '#ffffff', pixelRatio: 2 });
                 if (blob) {
