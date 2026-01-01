@@ -26,7 +26,12 @@ export async function POST(request: Request) {
         }
 
         If the input is SAFE:
-        Analyze the user's emotional state and return this strict JSON object:
+        Analyze the user's emotional state.
+        CRITICAL: Your goal is to improve the user's mood.
+        - If the user is SAD, ANGRY, ANXIOUS, or NEGATIVE: Recommend HAPPY, UPLIFTING, CALM, or ENERGETIC songs to cheer them up. Do NOT match the sad vibe.
+        - If the user is HAPPY or POSITIVE: Recommend songs that match or enhance their positive vibe.
+        
+        Return this strict JSON object:
         {
             "is_offensive": false,
             "emotion": "Detected Emotion (e.g., Happy, Melancholic, Energetic)",
@@ -43,7 +48,7 @@ export async function POST(request: Request) {
             ]
         }
         
-        Provide exactly 5 song recommendations that perfectly match the detected mood. Return ONLY JSON.`;
+        Provide exactly 5 song recommendations that follow the INVERSE MOOD logic for negative emotions. Return ONLY JSON.`;
 
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',

@@ -79,20 +79,35 @@ def preprocess_image(base64_string):
     
     return img_array
 
+
+INVERSE_PROJECTION = {
+    "Sad": "Happy",
+    "Angry": "Happy", 
+    "Fear": "Happy", 
+    "Disgust": "Happy",
+    "Surprise": "Happy",
+    "Neutral": "Neutral",
+    "Happy": "Happy"
+}
+
 def get_music_recommendations(emotion_label):
     """
-    Filters the CSV for 5 random songs matching the emotion.
+    Filters the CSV for 5 random songs matching the INVERSE of the emotion.
     """
     if music_df.empty:
         return []
     
+    # Apply Inverse Logic
+    target_emotion = INVERSE_PROJECTION.get(emotion_label, "Happy")
+    print(f"🎵 Detected: {emotion_label} -> Recommending: {target_emotion}")
+
     label_to_id = {v: k for k, v in EMOTION_LABELS.items()}
-    target_id = label_to_id.get(emotion_label, 6) 
+    target_id = label_to_id.get(target_emotion, 6) 
     
     if 'emotion_id' in music_df.columns:
         filtered_songs = music_df[music_df['emotion_id'] == target_id]
     else:
-        
+        # Fallback if column missing
         filtered_songs = music_df.sample(5)
 
     # Get 5 random songs if available, else all of them
