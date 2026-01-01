@@ -271,9 +271,9 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                 {/* Close Button */}
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 z-20 p-2 bg-black text-white hover:bg-zinc-800 rounded-full transition-transform hover:scale-110 shadow-lg"
+                                    className="absolute top-2 right-2 md:top-4 md:right-4 z-20 p-1.5 md:p-2 bg-black text-white hover:bg-zinc-800 rounded-full transition-transform hover:scale-110 shadow-lg"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <X className="w-4 h-4 md:w-5 md:h-5" />
                                 </button>
 
                                 {/* Content */}
@@ -295,7 +295,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                                     <p className="text-[9px] md:text-xs font-medium text-black/40 mt-1">{dateStr}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex gap-2">
+                                            <div className="flex gap-2 mr-8 md:mr-0">
                                                 <VibeBadge emotion={playlist?.emotion} className="text-[9px] md:text-xs scale-90 md:scale-100 origin-top-right" />
                                             </div>
                                         </div>
