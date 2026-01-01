@@ -71,7 +71,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
         // This is the only way to "share image" to WhatsApp from a web app on mobile.
         if ((platform === 'whatsapp' || platform === 'native' || !platform) && navigator.share && previewRef.current) {
             try {
-                const blob = await toBlob(previewRef.current, { cacheBust: true });
+                const blob = await toBlob(previewRef.current, { cacheBust: true, backgroundColor: '#ffffff', pixelRatio: 2 });
                 if (blob) {
                     const file = new File([blob], 'moodmate-vibe.png', { type: 'image/png' });
 
@@ -164,13 +164,12 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
             {/* Hidden Capture Template (Off-screen) */}
             {/* We render this always (or when open) so it's ready for capture. 
                 Fixed width ensures consistent image size. 
-                Using absolute positioning off-screen to hide it from user but keep it in DOM for html-to-image. */}
+                Using fixed positioning off-screen is safer for capture. */}
             <div
-                ref={previewRef}
-                className="absolute top-0 left-0 -z-50 pointer-events-none"
+                className="fixed top-0 left-0 -z-50 pointer-events-none"
                 style={{ transform: 'translateX(-9999px)' }}
             >
-                <div className="w-[600px] bg-white rounded-[40px] overflow-hidden border border-black/5 flex flex-col shadow-2xl">
+                <div ref={previewRef} className="w-[600px] bg-white rounded-[40px] overflow-hidden border border-black/5 flex flex-col shadow-2xl">
                     {/* Card Content for Image */}
                     <div className="p-8 pb-8">
                         <div className="bg-white rounded-[32px] p-8 shadow-sm border border-black/5 mb-0">
