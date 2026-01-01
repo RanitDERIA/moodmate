@@ -327,25 +327,28 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
                                             {copied ? <Check className="w-5 h-5 md:w-6 md:h-6" /> : <Copy className="w-5 h-5 md:w-6 md:h-6 text-black/40" />}
                                             <span className="text-[10px] md:text-xs uppercase tracking-wider text-black/60">{copied ? 'Copied!' : 'Copy Link'}</span>
                                         </button>
-                                        <div className="grid grid-cols-3 gap-2">
-                                            <button onClick={() => handleShare('whatsapp')} className="h-12 md:h-14 rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-6 h-6 md:w-8 md:h-8" alt="WhatsApp" />
-                                            </button>
-                                            <button onClick={() => handleShare('twitter')} className="h-12 md:h-14 rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <Twitter className="w-5 h-5 md:w-7 md:h-7" />
-                                            </button>
-                                            <button onClick={() => handleShare('instagram')} className="h-12 md:h-14 rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <Instagram className="w-5 h-5 md:w-7 md:h-7" />
-                                            </button>
-                                            <button onClick={() => handleShare('facebook')} className="h-12 md:h-14 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <Facebook className="w-5 h-5 md:w-7 md:h-7" />
-                                            </button>
-                                            <button onClick={() => handleShare('gmail')} className="h-12 md:h-14 rounded-2xl bg-[#EA4335] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <Mail className="w-5 h-5 md:w-7 md:h-7" />
-                                            </button>
-                                            <button onClick={() => handleShare('native')} className="h-12 md:h-14 rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
-                                                <ExternalLink className="w-5 h-5 md:w-7 md:h-7" />
-                                            </button>
+                                        <div className="flex flex-col gap-2">
+                                            <p className="text-[10px] uppercase font-bold text-black/40 tracking-wider">Apps for mobile/tablet</p>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <button onClick={() => handleShare('whatsapp')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#25D366] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <img src="https://img.icons8.com/?size=100&id=16713&format=png&color=FFFFFF" className="w-5 h-5 md:w-8 md:h-8" alt="WhatsApp" />
+                                                </button>
+                                                <button onClick={() => handleShare('twitter')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#1DA1F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <Twitter className="w-4 h-4 md:w-7 md:h-7" />
+                                                </button>
+                                                <button onClick={() => handleShare('instagram')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <Instagram className="w-4 h-4 md:w-7 md:h-7" />
+                                                </button>
+                                                <button onClick={() => handleShare('facebook')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <Facebook className="w-4 h-4 md:w-7 md:h-7" />
+                                                </button>
+                                                <button onClick={() => handleShare('gmail')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-[#EA4335] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <Mail className="w-4 h-4 md:w-7 md:h-7" />
+                                                </button>
+                                                <button onClick={() => handleShare('native')} className="h-10 md:h-14 rounded-full md:rounded-2xl bg-black text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                                                    <ExternalLink className="w-4 h-4 md:w-7 md:h-7" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
