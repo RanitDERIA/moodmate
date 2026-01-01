@@ -122,8 +122,8 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                         <div className="bg-white w-full max-w-lg rounded-[32px] border border-black/5 shadow-2xl overflow-hidden pointer-events-auto flex flex-col max-h-[90vh]">
 
                             {/* Header */}
-                            <div className="bg-white p-6 border-b border-black/5 flex items-center justify-between">
-                                <h2 className="text-xl font-black uppercase text-black tracking-tight">
+                            <div className="bg-white p-4 md:p-6 border-b border-black/5 flex items-center justify-between">
+                                <h2 className="text-lg md:text-xl font-black uppercase text-black tracking-tight">
                                     {initialData ? 'Edit Vibe' : 'Share Custom Vibe'}
                                 </h2>
                                 <button
@@ -135,7 +135,7 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                             </div>
 
                             {/* Body */}
-                            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                            <div className="p-4 md:p-6 overflow-y-auto flex-1 space-y-4 md:space-y-6">
 
                                 {/* Emotion Input */}
                                 <div className="space-y-2">
@@ -145,7 +145,7 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                                         value={emotion}
                                         onChange={(e) => setEmotion(e.target.value)}
                                         placeholder="e.g., Midnight Drive"
-                                        className="w-full bg-gray-50 border border-black/5 rounded-xl px-4 py-3 font-bold focus:outline-none focus:border-black/20 focus:bg-white transition-all"
+                                        className="w-full bg-gray-50 border border-black/5 rounded-xl px-3 py-2 md:px-4 md:py-3 font-bold focus:outline-none focus:border-black/20 focus:bg-white transition-all text-sm md:text-base"
                                     />
                                 </div>
 
@@ -164,7 +164,7 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                                             }
                                         }}
                                         placeholder="Short vibe description..."
-                                        className="w-full bg-gray-50 border border-black/5 rounded-xl px-4 py-3 font-medium focus:outline-none focus:border-black/20 focus:bg-white transition-all"
+                                        className="w-full bg-gray-50 border border-black/5 rounded-xl px-3 py-2 md:px-4 md:py-3 font-medium focus:outline-none focus:border-black/20 focus:bg-white transition-all text-sm md:text-base"
                                     />
                                 </div>
 
@@ -177,46 +177,46 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                                             value={currentLink}
                                             onChange={(e) => setCurrentLink(e.target.value)}
                                             placeholder="Paste URL (Spotify, YouTube...)"
-                                            className="flex-1 bg-gray-50 border border-black/5 rounded-xl px-4 py-3 font-medium focus:outline-none focus:border-black/20 focus:bg-white transition-all"
+                                            className="flex-1 bg-gray-50 border border-black/5 rounded-xl px-3 py-2 md:px-4 md:py-3 font-medium focus:outline-none focus:border-black/20 focus:bg-white transition-all text-sm md:text-base min-w-0"
                                             onKeyDown={(e) => e.key === 'Enter' && handleAddLink()}
                                         />
                                         <button
                                             onClick={handleAddLink}
-                                            className="bg-black text-white px-4 rounded-xl hover:bg-zinc-800 transition-colors"
+                                            className="bg-black text-white px-3 md:px-4 rounded-xl hover:bg-zinc-800 transition-colors shrink-0"
                                         >
-                                            <Plus className="w-6 h-6" />
+                                            <Plus className="w-5 h-5 md:w-6 md:h-6" />
                                         </button>
                                     </div>
-                                    <p className="text-[10px] font-bold text-black/30 uppercas tracking-wide">
+                                    <p className="text-[10px] font-bold text-black/30 uppercas tracking-wide leading-tight">
                                         Spotify • Apple • Amazon • YouTube • Gaana • JioSaavn • SoundCloud
                                     </p>
                                 </div>
 
                                 {/* Link List */}
-                                <div className="space-y-3">
+                                <div className="space-y-2 md:space-y-3">
                                     {links.map((link, idx) => (
                                         <motion.div
                                             key={idx}
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
-                                            className="flex items-center justify-between bg-white border border-black/5 p-3 rounded-2xl group shadow-sm"
+                                            className="flex items-center justify-between bg-white border border-black/5 p-2 md:p-3 rounded-2xl group shadow-sm"
                                         >
-                                            <div className="flex items-center gap-3 overflow-hidden">
-                                                <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center shrink-0 text-green-600">
-                                                    <LinkIcon className="w-4 h-4" />
+                                            <div className="flex items-center gap-2 md:gap-3 overflow-hidden min-w-0 flex-1">
+                                                <div className="w-6 h-6 md:w-8 md:h-8 bg-green-50 rounded-full flex items-center justify-center shrink-0 text-green-600">
+                                                    <LinkIcon className="w-3 h-3 md:w-4 md:h-4" />
                                                 </div>
-                                                <span className="text-sm font-medium truncate opacity-70">{link}</span>
+                                                <span className="text-xs md:text-sm font-medium truncate opacity-70 flex-1 min-w-0">{link}</span>
                                             </div>
                                             <button
                                                 onClick={() => handleRemoveLink(idx)}
-                                                className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors opacity-0 group-hover:opacity-100"
+                                                className="p-1 md:p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors md:opacity-0 md:group-hover:opacity-100 shrink-0"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>
                                         </motion.div>
                                     ))}
                                     {links.length === 0 && (
-                                        <div className="text-center p-6 border border-dashed border-black/10 rounded-2xl text-black/30 font-medium text-sm">
+                                        <div className="text-center p-4 md:p-6 border border-dashed border-black/10 rounded-2xl text-black/30 font-medium text-xs md:text-sm">
                                             No links added yet. Be the first to share!
                                         </div>
                                     )}
@@ -227,20 +227,20 @@ export function ShareModal({ isOpen, onClose, userId, onSuccess, initialData }: 
                                     <motion.div
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3 text-sm font-medium"
+                                        className="bg-red-50 text-red-600 p-3 md:p-4 rounded-xl flex items-center gap-3 text-xs md:text-sm font-medium"
                                     >
-                                        <AlertCircle className="w-5 h-5 shrink-0" />
+                                        <AlertCircle className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
                                         {error}
                                     </motion.div>
                                 )}
                             </div>
 
                             {/* Footer */}
-                            <div className="p-6 border-t border-black/5 bg-gray-50/50">
+                            <div className="p-4 md:p-6 border-t border-black/5 bg-gray-50/50">
                                 <button
                                     onClick={handleSubmit}
                                     disabled={isSubmitting || links.length === 0 || !emotion}
-                                    className="w-full bg-black text-white font-bold uppercase text-sm py-4 rounded-xl hover:bg-zinc-800 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    className="w-full bg-black text-white font-bold uppercase text-xs md:text-sm py-3 md:py-4 rounded-xl hover:bg-zinc-800 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? (
                                         <>
