@@ -352,6 +352,18 @@ This project is licensed under the **Apache License 2.0**.
 - Provided **AS IS**, without warranties or liability  
 </sub>
 
+### Acknowledgements: <a name="acknowledgements"></a>
+
+I would like to express my sincere gratitude to my mentor, for their invaluable guidance, continuous support, and constructive feedback throughout the development of **MoodMate**. Their insights played a pivotal role in refining the machine learning pipeline and shaping the final architecture of this project.
+
+I also extend my thanks to **Infosys Springboard** for providing the platform, resources, and internship opportunity that allowed me to explore advanced AI/ML concepts and apply them in a real-world scenario.
+
+<p align="center">
+  <img src="public\images\infosys.png" alt="Infosys Springboard" width="300" height="170"/>
+  <br>
+  <i>Virtual Internship 6.0</i>
+</p>
+
 ### Let's Connect
 
 <p align="left">
