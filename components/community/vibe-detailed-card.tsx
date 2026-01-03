@@ -27,7 +27,7 @@ export function VibeDetailedCard({ playlist, currentUserId, onLikeToggle, thumbn
 
             // Fetch Apple Music, JioSaavn, Amazon Music, Gaana, or YouTube thumbnail if present
             const targetLink = (playlist.links || []).find((link: string) =>
-                link.includes('music.apple.com') || link.includes('jiosaavn.com') || link.includes('saavn.com') || link.includes('gaana.com') || link.includes('youtube') || link.includes('youtu.be')
+                link.includes('music.apple.com') || link.includes('jiosaavn.com') || link.includes('saavn.com') || link.includes('gaana.com') || link.includes('youtube') || link.includes('youtu.be') || link.includes('soundcloud.com') || link.includes('on.soundcloud.com')
             );
 
             if (targetLink) {

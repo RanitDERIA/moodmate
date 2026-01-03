@@ -202,7 +202,10 @@ export function VibeCard({ playlist, index, currentUserId, onLikeToggle, onDelet
                         onClick={handleLikeClick}
                         className={`group flex items-center gap-1.5 transition-colors ${liked ? 'text-[#FB58B4]' : 'text-black/40 hover:text-[#FB58B4]'}`}
                     >
-                        <Heart className={`w-5 h-5 group-hover:scale-110 transition-transform ${liked ? 'fill-current' : ''}`} />
+                        <Heart
+                            className="w-5 h-5 group-hover:scale-110 transition-transform"
+                            fill={liked ? "currentColor" : "none"}
+                        />
                         <span className="text-xs font-bold">{likeCount}</span>
                     </button>
                     <button
@@ -242,7 +245,6 @@ export function VibeCard({ playlist, index, currentUserId, onLikeToggle, onDelet
                     const imageIndex = ((index + 0) % 5) + 1; // i=0
                     if (hostname.includes('spotify')) return `/thumbnails/spot${imageIndex}.png`;
                     if (hostname.includes('amazon')) return `/thumbnails/ama${((index + 0) % 4) + 1}.png`;
-                    if (hostname.includes('soundcloud')) return `/thumbnails/cloud${((index + 0) % 2) + 1}.png`;
 
                     return null; // For fetchable links (Apple, YT), let Modal fetch it
                 })()}
@@ -259,7 +261,7 @@ function MediaGridItem({ link, index, total, spotImage, cloudImage, amaImage }: 
 
     useEffect(() => {
         const fetchMetadata = async () => {
-            if (hostname.includes('apple') || hostname.includes('jiosaavn') || hostname.includes('saavn') || hostname.includes('gaana') || hostname.includes('youtube') || hostname.includes('youtu.be')) {
+            if (hostname.includes('apple') || hostname.includes('jiosaavn') || hostname.includes('saavn') || hostname.includes('gaana') || hostname.includes('youtube') || hostname.includes('youtu.be') || hostname.includes('soundcloud.com') || hostname.includes('on.soundcloud.com')) {
                 try {
                     const res = await fetch(`/api/metadata?url=${encodeURIComponent(link)}`);
                     if (res.ok) {
@@ -321,8 +323,7 @@ function MediaGridItem({ link, index, total, spotImage, cloudImage, amaImage }: 
         bgClass = "bg-[#FF5500]/10";
         iconColor = "text-[#FF5500]";
         logoUrl = "/images/soundcloud.png";
-        // No thumbnail fetching for SoundCloud
-        thumbnail = cloudImage; // Use local random thumbnail for SoundCloud
+        thumbnail = fetchedThumbnail; // Use fetched ONLY
     }
 
     const isSingle = total === 1;

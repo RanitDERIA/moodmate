@@ -33,7 +33,7 @@ export function SocialShareModal({ isOpen, onClose, playlist, thumbnail }: { isO
             let hostname = "";
             try { hostname = new URL(firstLink).hostname.replace('www.', ''); } catch (e) { }
 
-            if (hostname.includes('apple') || hostname.includes('jiosaavn') || hostname.includes('saavn') || hostname.includes('gaana') || hostname.includes('youtube') || hostname.includes('youtu.be')) {
+            if (hostname.includes('apple') || hostname.includes('jiosaavn') || hostname.includes('saavn') || hostname.includes('gaana') || hostname.includes('youtube') || hostname.includes('youtu.be') || hostname.includes('soundcloud.com') || hostname.includes('on.soundcloud.com')) {
                 fetch(`/api/metadata?url=${encodeURIComponent(firstLink)}`)
                     .then(res => res.json())
                     .then(data => {

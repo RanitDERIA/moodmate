@@ -168,6 +168,9 @@ export default function ProfilePage() {
                     </p>
                 </div>
 
+
+
+
                 <div className="grid lg:grid-cols-12 gap-8 items-start">
 
                     {/* Sidebar / Identity Card */}
@@ -211,6 +214,25 @@ export default function ProfilePage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Dashboard Link (Sidebar) */}
+                        <button
+                            onClick={() => router.push('/my-vibe')}
+                            className="w-full group flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-[24px] shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:-translate-y-1 transition-all duration-300"
+                        >
+                            <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-sm group-hover:scale-110 transition-transform">
+                                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                            </div>
+                            <div className="text-left flex-1">
+                                <span className="block text-white font-black uppercase text-xs tracking-wide">Vibe Dashboard</span>
+                                <span className="block text-white/60 text-[10px] font-medium leading-none mt-0.5">Check analytics</span>
+                            </div>
+                            <svg className="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
 
                         {/* Mini Stats or Info */}
                         {isOAuthUser ? (
