@@ -40,6 +40,7 @@
 - [Project Structure](#project-structure)
 - [Privacy & Safety](#privacy--safety)
 - [License](#license)
+- [Acknowledgements](#acknowledgements)
 - [Contact](#contact)
 
 ## Overview
