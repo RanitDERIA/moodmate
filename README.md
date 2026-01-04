@@ -75,6 +75,41 @@ Before setting up MoodMate, ensure you have:
 - **Deployment:** <img align="center" alt="Docker" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"> Docker & Hugging Face Spaces
 - **Icons:** <img align="center" alt="Lucide" height="20" src="https://lucide.dev/logo.dark.svg"> Lucide React
 
+## 🧠 Datasets & Model Training
+
+MoodMate’s core intelligence is powered by a custom **VGG-style Convolutional Neural Network (CNN)**, trained on industry-standard datasets and optimized via a robust preprocessing pipeline to ensure real-time accuracy.
+
+### 📁 Datasets Used
+
+- **FER-2013 (Facial Expression Recognition)**
+  - **Source:** [FER-2013 (Kaggle)](https://www.kaggle.com/datasets/msambare/fer2013)
+  - **Scale:** ~35,000 grayscale facial images (48×48 pixel resolution).
+  - **Classes:** 7 distinct emotions (*Happy, Sad, Angry, Fear, Surprise, Disgust, Neutral*).
+  - **Usage:** Serves as the primary training ground for the deep learning model, pre-processed into `.npy` binary files for efficient memory loading.
+
+- **Spotify Tracks Dataset**
+  - **Source:** [Spotify Tracks Dataset - (Kaggle)](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset)
+  - **Features:** Rich audio attributes including *valence, energy, danceability,* and *track_genre*.
+  - **Usage:** Powers the recommendation engine by mapping detected emotion labels to sonically aligned music genres and attributes (e.g., High *Valence* + High *Energy* = "Happy").
+
+### 🔬 Preprocessing & Training Pipeline
+
+To overcome overfitting and ensure the model works in varied lighting conditions, the following engineering strategies were implemented:
+
+- **Image Standardization:**
+  - Conversion to single-channel Grayscale.
+  - Pixel normalization (scaling `0-255` values to `0-1` range).
+  - Resizing to strict `48x48` input dimensions.
+
+- **Real-Time Data Augmentation:**
+  - Implemented `ImageDataGenerator` to artificially expand the training set.
+  - **Techniques:** Rotation (`±15°`), Zoom (`10%`), Width/Height Shifts (`10%`), and Horizontal Flips to force the model to learn structural features rather than memorizing pixels.
+
+- **Regularization Strategy:**
+  - **L2 Kernel Regularization** (`0.01`) applied to dense layers.
+  - **Dropout layers** (increased to `0.6`) to prevent neuron co-dependency.
+  - **Callbacks:** Utilized *EarlyStopping* and *ReduceLROnPlateau* to dynamically optimize the learning rate during training.
+
 ### Features: <a name="features"></a>
 
 - **AI Mood Scanner:** Analyze your emotions from a selfie using computer vision.
@@ -160,180 +195,93 @@ To deploy your own instance:
 
 ```
 moodmate/
-├── .gitignore
-├── app/
-│   ├── about/
-│   │   └── page.tsx
-│   ├── api/
-│   │   ├── analyze-text/
-│   │   │   └── route.ts
-│   │   └── metadata/
-│   │       └── route.ts
-│   ├── auth/
-│   │   └── callback/
-│   │       └── route.ts
-│   ├── community/
-│   │   ├── [id]/
-│   │   │   ├── opengraph-image.tsx
-│   │   │   ├── page.tsx
-│   │   │   └── vibe-details-client.tsx
-│   │   └── page.tsx
-│   ├── contact/
-│   │   └── page.tsx
-│   ├── cookie-policy/
-│   │   └── page.tsx
-│   ├── forgot-password/
-│   │   └── page.tsx
-│   ├── globals.css
-│   ├── home/
-│   │   └── page.tsx
-│   ├── icon.png
-│   ├── landing/
-│   │   └── page.tsx
-│   ├── layout.tsx
-│   ├── login/
-│   │   └── page.tsx
-│   ├── my-vibe/
-│   │   └── page.tsx
-│   ├── not-found.tsx
-│   ├── page.tsx
-│   ├── privacy-policy/
-│   │   └── page.tsx
-│   ├── profile/
-│   │   └── page.tsx
-│   ├── reset-password/
-│   │   └── page.tsx
-│   ├── signup/
-│   │   └── page.tsx
-│   ├── terms/
-│   │   └── page.tsx
-│   └── vibes/
-│       └── page.tsx
-├── backend/
-│   ├── app.py
-│   ├── data/
-│   │   └── processed_music.csv
-│   ├── Dockerfile
-│   ├── models/
-│   │   └── moodmate_final_model.h5
-│   └── requirements.txt
-├── components/
-│   ├── community/
-│   │   ├── comment-section.tsx
-│   │   ├── search-filter-bar.tsx
-│   │   ├── share-modal.tsx
-│   │   ├── social-share-modal.tsx
-│   │   ├── vibe-badge.tsx
-│   │   ├── vibe-card.tsx
-│   │   ├── vibe-detailed-card.tsx
-│   │   └── vibe-details-modal.tsx
-│   ├── custom/
-│   │   ├── architecture-diagram.tsx
-│   │   ├── home-button.tsx
-│   │   ├── interactive-grid.tsx
-│   │   ├── mood-card.tsx
-│   │   ├── not-found-content.tsx
-│   │   ├── oauth-button.tsx
-│   │   ├── otp-input.tsx
-│   │   ├── song-grid.tsx
-│   │   └── webcam-view.tsx
-│   ├── dashboard/
-│   │   └── dashboard-header.tsx
-│   ├── home/
-│   │   ├── greeting-header.tsx
-│   │   ├── history-list.tsx
-│   │   ├── instructions.tsx
-│   │   ├── mood-selector.tsx
-│   │   ├── stats-card.tsx
-│   │   └── trending-section.tsx
-│   ├── layout/
-│   │   ├── footer.tsx
-│   │   ├── navbar.tsx
-│   │   └── user-nav.tsx
-│   ├── ui/
-│   │   ├── confirm-modal.tsx
-│   │   └── tabs.tsx
-│   ├── VibeAnalytics.tsx
-│   └── VibeDashboard.tsx
-├── components.json
-├── eslint.config.mjs
-├── lib/
-│   ├── api.ts
-│   ├── moods.ts
-│   ├── supabase.ts
-│   ├── utils.ts
-│   └── validators.ts
-├── middleware.ts
-├── next.config.ts
-├── package-lock.json
-├── package.json
-├── postcss.config.mjs
-├── public/
-│   ├── file.svg
-│   ├── globe.svg
-│   ├── images/
-│   │   ├── amazon.png
-│   │   ├── apple.png
-│   │   ├── Chill.png
-│   │   ├── Energetic.png
-│   │   ├── flask.png
-│   │   ├── Focus1.png
-│   │   ├── gaana.png
-│   │   ├── Happy.png
-│   │   ├── infosys.png
-│   │   ├── land.png
-│   │   ├── logo.png
-│   │   ├── numpy.png
-│   │   ├── pandas.png
-│   │   ├── saavn.png
-│   │   ├── Sad.png
-│   │   ├── Sleep.png
-│   │   ├── soundcloud.png
-│   │   ├── spotify.png
-│   │   ├── tensorflow.png
-│   │   └── ytmusic.png
-│   ├── next.svg
-│   ├── thumbnails/
-│   │   ├── ama1.png
-│   │   ├── ama2.png
-│   │   ├── ama3.png
-│   │   ├── ama4.png
-│   │   ├── cloud1.png
-│   │   ├── cloud2.png
-│   │   ├── spot1.png
-│   │   ├── spot2.png
-│   │   ├── spot3.png
-│   │   ├── spot4.png
-│   │   └── spot5.png
-│   ├── vercel.svg
-│   └── window.svg
-├── README.md
-├── supabase/
-│   └── migrations/
-│       ├── 20251230_add_comments_column.sql
-│       ├── 20251230_add_likes_column.sql
-│       ├── 20251230_add_tagline_to_community_playlists.sql
-│       ├── 20251230_backfill_profiles.sql
-│       ├── 20251230_comment_features.sql
-│       ├── 20251230_community_playlists.sql
-│       ├── 20251230_create_comments_table.sql
-│       ├── 20251230_fix_comments_fk.sql
-│       ├── 20251230_fix_profiles_schema.sql
-│       ├── 20251230_likes_table.sql
-│       ├── 20251230_social_features.sql
-│       ├── 20260101_add_update_policy.sql
-│       ├── fix_likes_logic.sql
-│       └── fix_likes_rls.sql
-├── tsconfig.json
-├── types/
-│   └── index.ts
-└── utils/
-    └── supabase/
-        ├── client.ts
-        ├── middleware.ts
-        └── server.ts
-
+├── app/                         # Next.js App Router (frontend pages & routes)
+│   ├── api/                     # Server-side API routes (Next.js)
+│   │   ├── analyze-text/        # Mood analysis API (connects to ML backend)
+│   │   └── metadata/            # SEO & OpenGraph metadata
+│   ├── auth/callback/           # OAuth authentication callback (Supabase)
+│   ├── community/               # Community playlists & social features
+│   ├── home/                    # User dashboard landing
+│   ├── login | signup           # Authentication pages
+│   ├── profile | my-vibe        # User profile & mood history
+│   ├── layout.tsx               # Global layout (Navbar, Footer, Providers)
+│   ├── globals.css              # Global Tailwind styles
+│   └── not-found.tsx            # Custom 404 page
+│
+├── backend/                     # Machine Learning backend (Python)
+│   ├── app.py                   # Flask/FastAPI app serving ML predictions
+│   ├── models/                  # Trained ML model (.h5)
+│   ├── data/                    # Processed dataset used for training
+│   ├── requirements.txt         # Python dependencies (TensorFlow, NumPy, etc.)
+│   └── Dockerfile               # Containerized ML backend
+│
+├── components/                  # Reusable React components
+│   ├── community/               # Vibe cards, comments, social sharing
+│   ├── home/                    # Dashboard UI (stats, mood selector)
+│   ├── layout/                  # Navbar, footer, user navigation
+│   └── custom/                  # Advanced UI (webcam, grids, OAuth buttons)
+│
+├── lib/                         # Shared frontend utilities
+│   ├── api.ts                   # API helpers (frontend ↔ backend)
+│   ├── supabase.ts              # Supabase client configuration
+│   ├── moods.ts                 # Mood constants & mappings
+│   └── validators.ts            # Input validation schemas
+│
+├── supabase/                    # Database schema & migrations
+│   └── migrations/              # SQL migrations (comments, likes, profiles)
+│
+├── public/                      # Static assets
+│   ├── images/                  # Logos, mood icons, partner platforms
+│   └── thumbnails/              # UI & feature preview images
+│
+├── middleware.ts                # Route protection & auth middleware
+├── next.config.ts               # Next.js configuration
+├── package.json                 # Frontend dependencies & scripts
+├── tsconfig.json                # TypeScript configuration
+├── README.md                    # Project documentation
+└── LICENSE                      # Apache License 2.0
 ```
+
+## ⚙️ Model Training & Evaluation
+
+All deep learning experiments, from data preprocessing to final model selection, were conducted in a cloud-based GPU environment using <img align="center" alt="Google Collab" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecolab/googlecolab-original.svg"> **Google Colab**  to ensure computational efficiency and reproducibility.
+
+### 📓 Source Notebooks (Google Colab)
+
+The complete training pipeline is documented in the following notebooks:
+
+- **[📄 Data Preprocessing & Augmentation](https://colab.research.google.com/drive/1d3_dR6lzujHKgSvjmMvEFAWDVUE_bW6K?usp=sharing)** *Handles loading the FER-2013 dataset, converting raw pixels to standard arrays, and generating `.npy` binary files for efficient loading.*
+
+- **[🧠 Model Training & Fine-Tuning](https://colab.research.google.com/drive/1UA0SI8UE-f_kA0XE36UQltg5YcnnRtUF?usp=sharing)** *Contains the Custom CNN architecture, Data Augmentation setup (`ImageDataGenerator`), and the full training loop with callbacks.*
+
+> **Note:** These notebooks demonstrate the progression from raw CSV data to a finalized `.h5` model file.
+
+### 📈 Performance Metrics
+
+The final model achieved a stable **Validation Accuracy of ~63%** on the FER-2013 dataset, a strong baseline for a custom lightweight CNN.
+
+#### 🔹 Key Observations
+- **Overfitting Eliminated:** By implementing **Data Augmentation** (Rotation ±15°, Zoom) and **L2 Regularization**, the "Generalization Gap" between training and validation accuracy was effectively closed.
+- **Robust Learning:** The validation loss curve tracks closely with training loss, confirming that the model learns structural features rather than memorizing pixel noise.
+- **Dynamic Optimization:** Utilized `ReduceLROnPlateau` to fine-tune weights whenever learning stalled, ensuring convergence.
+
+<p align="center">
+  <img src="README-images/model_accuracy.png" width="85%" alt="Model Accuracy Graph showing convergence" />
+  <br />
+  <i>Figure 1: Training vs. Validation Accuracy (Gap closed via Regularization)</i>
+</p>
+
+<p align="center">
+  <img src="README-images/model_loss.png" width="85%" alt="Model Loss Graph showing smooth descent" />
+  <br />
+  <i>Figure 2: Training vs. Validation Loss</i>
+</p>
+
+### 🧪 Final Inference Model
+
+- **Architecture:** Custom VGG-style CNN (Lightweight, optimized for web deployment).
+- **Export Format:** `moodmate_final_model.h5` (Keras/TensorFlow).
+- **Inference Strategy:** The model is loaded globally in the Flask backend to ensure **<200ms latency** per prediction.
 
 ### Privacy & Safety: <a name="privacy--safety"></a>
 
@@ -359,7 +307,7 @@ I would like to express my sincere gratitude to my mentor, for their invaluable 
 I also extend my thanks to **Infosys Springboard** for providing the platform, resources, and internship opportunity that allowed me to explore advanced AI/ML concepts and apply them in a real-world scenario.
 
 <p align="center">
-  <img src="public\images\infosys.png" alt="Infosys Springboard" width="300" height="170"/>
+  <img src="README-images\infosys.png" width="100" />
   <br>
   <i>Virtual Internship 6.0</i>
 </p>
