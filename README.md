@@ -253,9 +253,9 @@ All deep learning experiments, from data preprocessing to final model selection,
 
 The complete training pipeline is documented in the following notebooks:
 
-- **[📄 Data Preprocessing & Augmentation](https://colab.research.google.com/drive/1d3_dR6lzujHKgSvjmMvEFAWDVUE_bW6K?usp=sharing)** *Handles loading the FER-2013 dataset, converting raw pixels to standard arrays, and generating `.npy` binary files for efficient loading.*
+- **[Data Preprocessing & Augmentation](https://colab.research.google.com/drive/1d3_dR6lzujHKgSvjmMvEFAWDVUE_bW6K?usp=sharing)** *Handles loading the FER-2013 dataset, converting raw pixels to standard arrays, and generating `.npy` binary files for efficient loading.*
 
-- **[🧠 Model Training & Fine-Tuning](https://colab.research.google.com/drive/1UA0SI8UE-f_kA0XE36UQltg5YcnnRtUF?usp=sharing)** *Contains the Custom CNN architecture, Data Augmentation setup (`ImageDataGenerator`), and the full training loop with callbacks.*
+- **[Model Training & Fine-Tuning](https://colab.research.google.com/drive/1UA0SI8UE-f_kA0XE36UQltg5YcnnRtUF?usp=sharing)** *Contains the Custom CNN architecture, Data Augmentation setup (`ImageDataGenerator`), and the full training loop with callbacks.*
 
 > **Note:** These notebooks demonstrate the progression from raw CSV data to a finalized `.h5` model file.
 
