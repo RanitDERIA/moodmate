@@ -14,7 +14,7 @@
 </div>
   <br />
 
-  <h2 align="center">Mood Based Music Recommendation</h2>
+  <h2 align="center">AI-Powered Auditory Empathy.</h2>
 
   <p align="center">
   MoodMate is an intelligent emotional companion that detects your mood from a selfie, curates personalized music playlists, and connects you with a supportive community. Built with <strong>Next.js 16</strong>, <strong>React 19</strong>, and <strong>Supabase</strong>, and powered by a <strong>Flask AI Backend</strong>, it features a bold <strong>pop brutalist aesthetic</strong> and practical tools for your daily emotional well-being.
