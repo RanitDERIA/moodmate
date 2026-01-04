@@ -33,15 +33,17 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Technologies Utilized](#technologies-utilized)
+- [Datasets & Model Training](#datasets-model-training)
 - [Features](#features)
 - [Run Locally](#run-locally)
 - [Deployment](#deployment)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
+- [Model Training & Evaluation](#model-training-evaluation)
 - [Privacy & Safety](#privacy--safety)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
-- [Contact](#contact)
+- [Connect](#connect)
 
 ## Overview
 
@@ -53,7 +55,7 @@ Emotional wellbeing shouldn't be complicated or isolating. **MoodMate** elevates
 
 All wrapped in a high-contrast, partially accessible, and mobile-responsive **Pop Brutalist UI**.
 
-### Prerequisites: <a name="prerequisites"></a>
+## Prerequisites: <a name="prerequisites"></a>
 
 Before setting up MoodMate, ensure you have:
 
@@ -64,7 +66,7 @@ Before setting up MoodMate, ensure you have:
 - <img align="center" alt="Supabase" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg"> **Supabase** (Account & Project)
 - <img align="center" alt="Docker" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"> **Docker** (Optional - for containerized backend)
 
-### Technologies Utilized: <a name="technologies-utilized"></a>
+## Technologies Utilized: <a name="technologies-utilized"></a>
 
 - **Framework:** <img align="center" alt="Next.js" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"> Next.js 16 (App Router)
 - **Language:** <img align="center" alt="TypeScript" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"> TypeScript & <img align="center" alt="Python" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"> Python
@@ -76,7 +78,7 @@ Before setting up MoodMate, ensure you have:
 - **Deployment:** <img align="center" alt="Docker" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"> Docker & Hugging Face Spaces
 - **Icons:** <img align="center" alt="Lucide" height="20" src="https://lucide.dev/logo.dark.svg"> Lucide React
 
-## 🧠 Datasets & Model Training
+## Datasets & Model Training <a name="datasets-model-training"></a>
 
 MoodMate’s core intelligence is powered by a custom **VGG-style Convolutional Neural Network (CNN)**, trained on industry-standard datasets and optimized via a robust preprocessing pipeline to ensure real-time accuracy.
 
@@ -111,7 +113,7 @@ To overcome overfitting and ensure the model works in varied lighting conditions
   - **Dropout layers** (increased to `0.6`) to prevent neuron co-dependency.
   - **Callbacks:** Utilized *EarlyStopping* and *ReduceLROnPlateau* to dynamically optimize the learning rate during training.
 
-### Features: <a name="features"></a>
+## Features: <a name="features"></a>
 
 - **AI Mood Scanner:** Analyze your emotions from a selfie using computer vision.
 - **Vibe Curation:** Get instant, mood-matched music recommendations.
@@ -121,7 +123,7 @@ To overcome overfitting and ensure the model works in varied lighting conditions
 - **Emotional Safety:** Crisis resource integration for detected distress signals.
 - **Responsive & Fluid:** Optimized for all devices with smooth animations.
 
-### Run Locally: <a name="run-locally"></a>
+## Run Locally: <a name="run-locally"></a>
 
 1. **Clone the Repository:**
 
@@ -169,7 +171,7 @@ To overcome overfitting and ensure the model works in varied lighting conditions
 
    Visit `http://localhost:3000` to begin your journey.
 
-### Deployment: <a name="deployment"></a>
+## Deployment: <a name="deployment"></a>
 
 MoodMate follows a distributed deployment strategy:
 
@@ -181,7 +183,7 @@ To deploy your own instance:
 2. Deploy the `backend` folder to Hugging Face Spaces (choose Docker SDK).
 3. Import the repo to Vercel and configure the environment variables.
 
-### Configuration: <a name="configuration"></a>
+## Configuration: <a name="configuration"></a>
 
 - **Environment Variables:**
   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase Project URL.
@@ -192,7 +194,7 @@ To deploy your own instance:
   - The "Pop Brutalist" aesthetic is centrally managed in `tailwind.config.js`.
   - Primary colors and shadows can be adjusted to match your preferred vibe.
 
-### Project Structure: <a name="project-structure"></a>
+## Project Structure: <a name="project-structure"></a>
 
 ```
 moodmate/
@@ -243,7 +245,7 @@ moodmate/
 └── LICENSE                      # Apache License 2.0
 ```
 
-## ⚙️ Model Training & Evaluation
+## Model Training & Evaluation <a name="model-training-evaluation"></a>
 
 All deep learning experiments, from data preprocessing to final model selection, were conducted in a cloud-based GPU environment using <img align="center" alt="Google Collab" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecolab/googlecolab-original.svg"> **Google Colab**  to ensure computational efficiency and reproducibility.
 
@@ -266,17 +268,21 @@ The final model achieved a stable **Validation Accuracy of ~63%** on the FER-201
 - **Robust Learning:** The validation loss curve tracks closely with training loss, confirming that the model learns structural features rather than memorizing pixel noise.
 - **Dynamic Optimization:** Utilized `ReduceLROnPlateau` to fine-tune weights whenever learning stalled, ensuring convergence.
 
-<p align="center">
-  <img src="README-images/model_accuracy.png" width="85%" alt="Model Accuracy Graph showing convergence" />
-  <br />
-  <i>Figure 1: Training vs. Validation Accuracy (Gap closed via Regularization)</i>
-</p>
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <img src="README-images/model_accuracy.png" width="90%" alt="Training and validation accuracy convergence" />
+      <br />
+      <sub><i>Convergent training and validation accuracy demonstrates effective feature learning with controlled generalization.</i></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="README-images/model_loss.png" width="90%" alt="Training and validation loss convergence" />
+      <br />
+      <sub><i>Monotonic loss reduction across epochs confirms stable optimization and absence of training instability.</i></sub>
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="README-images/model_loss.png" width="85%" alt="Model Loss Graph showing smooth descent" />
-  <br />
-  <i>Figure 2: Training vs. Validation Loss</i>
-</p>
 
 ### 🧪 Final Inference Model
 
@@ -284,13 +290,13 @@ The final model achieved a stable **Validation Accuracy of ~63%** on the FER-201
 - **Export Format:** `moodmate_final_model.h5` (Keras/TensorFlow).
 - **Inference Strategy:** The model is loaded globally in the Flask backend to ensure **<200ms latency** per prediction.
 
-### Privacy & Safety: <a name="privacy--safety"></a>
+## Privacy & Safety: <a name="privacy--safety"></a>
 
 - **Ephemeral Processing:** User photos are processed in-memory for mood detection and immediately discarded. No images are ever stored on our servers.
 - **Data Security:** Personal data and curated vibes are secured via Supabase's Row Level Security (RLS) policies.
 - **Emotional Well-being:** If signs of distress are detected, MoodMate automatically provides links to verified crisis hotlines and mental health resources.
 
-### License: <a name="license"></a>
+## License: <a name="license"></a>
 
 This project is licensed under the **Apache License 2.0**.
 <sub>
@@ -301,7 +307,7 @@ This project is licensed under the **Apache License 2.0**.
 - Provided **AS IS**, without warranties or liability  
 </sub>
 
-### Acknowledgements: <a name="acknowledgements"></a>
+## Acknowledgements: <a name="acknowledgements"></a>
 
 I would like to express my sincere gratitude to my mentor, for their invaluable guidance, continuous support, and constructive feedback throughout the development of **MoodMate**. Their insights played a pivotal role in refining the machine learning pipeline and shaping the final architecture of this project.
 
@@ -313,7 +319,7 @@ I also extend my thanks to **Infosys Springboard** for providing the platform, r
   <i>Virtual Internship 6.0</i>
 </p>
 
-### Let's Connect
+## Let's Connect <a name="connect"></a>
 
 <p align="left">
   <a href="mailto:bytebardderia@gmail.com">
