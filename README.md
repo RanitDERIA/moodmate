@@ -271,18 +271,48 @@ The final model achieved a stable **Validation Accuracy of ~63%** on the FER-201
 <table align="center">
   <tr>
     <td align="center" width="50%">
+      <strong>Training Accuracy</strong>
+      <br />
       <img src="README-images/model_accuracy.png" width="90%" alt="Training and validation accuracy convergence" />
       <br />
-      <sub><i>Convergent training and validation accuracy demonstrates effective feature learning with controlled generalization.</i></sub>
+      <sub><i>Convergent training and validation accuracy demonstrates effective feature learning.</i></sub>
     </td>
     <td align="center" width="50%">
+      <strong>Training Loss</strong>
+      <br />
       <img src="README-images/model_loss.png" width="90%" alt="Training and validation loss convergence" />
       <br />
-      <sub><i>Monotonic loss reduction across epochs confirms stable optimization and absence of training instability.</i></sub>
+      <sub><i>Monotonic loss reduction across epochs confirms stable optimization.</i></sub>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" width="50%">
+      <strong>Confusion Matrix</strong>
+      <br />
+      <img src="README-images/cf_matrix.png" width="90%" alt="Confusion Matrix Heatmap" />
+      <br />
+      <sub><i>Strong diagonal performance indicates high true positive rates for 'Happy' and 'Neutral'.</i></sub>
+    </td>
+    <td align="center" width="50%">
+      <strong>Classification Report</strong>
+      <br />
+      <img src="README-images/report.png" width="80%" alt="Classification Report Table" />
+      <br />
+      <sub><i>Detailed precision, recall, and f1-scores for all 7 emotion classes.</i></sub>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" colspan="2">
+      <strong>Performance Metrics per Emotion</strong>
+      <br />
+      <img src="README-images/metrics_emotion.png" width="100%" alt="Bar chart of Precision, Recall and F1 Score per emotion" />
+      <br />
+      <sub><i>Visual breakdown of model efficacy across specific emotional states.</i></sub>
     </td>
   </tr>
 </table>
-
 
 ### 🧪 Final Inference Model
 
