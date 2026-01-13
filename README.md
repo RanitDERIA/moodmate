@@ -75,7 +75,7 @@ Before setting up MoodMate, ensure you have:
 - **Machine Learning:** <img align="center" alt="TensorFlow" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg"> TensorFlow & <img align="center" alt="OpenCV" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opencv/opencv-original.svg"> OpenCV
 - **Data Processing:** <img align="center" alt="Pandas" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg"> Pandas & <img align="center" alt="NumPy" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/numpy/numpy-original.svg"> NumPy
 - **Styling:** <img align="center" alt="Tailwind" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"> Tailwind CSS
-- **Deployment:** <img align="center" alt="Docker" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"> Docker & Hugging Face Spaces
+- **Deployment:** <img align="center" alt="Docker" height="20" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"> Docker & <img align="center" alt="Docker" height="20" src="README-images/huggingface-color.svg"> Hugging Face Spaces
 - **Icons:** <img align="center" alt="Lucide" height="20" src="https://lucide.dev/logo.dark.svg"> Lucide React
 
 ## Datasets & Model Training <a name="datasets-model-training"></a>
