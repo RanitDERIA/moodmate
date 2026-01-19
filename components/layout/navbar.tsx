@@ -8,6 +8,8 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter, usePathname } from 'next/navigation';
 import { type User } from '@supabase/supabase-js';
 import { UserNav } from './user-nav';
+import { BottomNav } from './bottom-nav';
+import { toast } from 'sonner';
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +34,7 @@ export function Navbar() {
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
+        toast.success('Logged out successfully');
         router.push('/login');
         router.refresh();
     };
@@ -94,14 +97,16 @@ export function Navbar() {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Menu Button - Only show if NOT logged in */}
                     <div className="md:hidden">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="p-2 border-none rounded-md hover:bg-black/5"
-                        >
-                            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                        </button>
+                        {!user && (
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className="p-2 border-none rounded-md hover:bg-black/5"
+                            >
+                                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -181,6 +186,9 @@ export function Navbar() {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* Bottom Navigation for Mobile - Only show if logged in */}
+            {user && <BottomNav />}
         </nav>
     );
 }

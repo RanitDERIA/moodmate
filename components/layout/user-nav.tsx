@@ -7,6 +7,7 @@ import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { LogOut, User as UserIcon, Settings, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface UserNavProps {
     user: User | null;
@@ -32,6 +33,7 @@ export function UserNav({ user }: UserNavProps) {
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
+        toast.success('Logged out successfully');
         router.push('/login');
         router.refresh();
     };
